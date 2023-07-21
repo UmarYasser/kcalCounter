@@ -1,0 +1,212 @@
+#pragma once
+#include <iostream>
+using namespace std;
+/*--------------------*/
+ class counter{
+	 private:
+	 float cal;
+	 float protein;
+	 float carb;
+	 float fat;
+	 bool CalorieDense;
+	 bool Processed;
+	 public:
+
+	 counter(float cca,float ccr,float ppr,float ffa){
+		 setCal(cca);
+		 setCar(ccr);
+		 setfat(ffa);
+		 setPro(ppr);
+		 CalorieDense = false;
+	    }
+		 counter(float cca,float ccr,float ppr,float ffa,string special){
+		 setCal(cca);
+		 setCar(ccr);
+		 setfat(ffa);
+		 setPro(ppr);
+		 CalorieDense = false;
+		 Processed =false;
+	      if(special == "Prc")
+		     Processed == true;
+	    }
+		void setCal(float cca){
+			cal = cca;
+		}
+		void setPro(float ppr){
+			protein = ppr;
+		}
+		void setCar(float ccr){
+			carb = ccr;
+		}
+		void setfat(float ffa){	fat = ffa;}
+		float getCal(){	return cal;}
+		float getCar(){	return carb;}
+		float getPro(){	return protein;}
+		float getFat(){	return fat;}
+		bool CalDense(){
+			if(getCal() >1.3)
+		     	CalorieDense = true;
+			return CalorieDense;	 
+		}
+		bool Pross(){return Processed;	}
+    };
+
+class kcalCounter {
+  private:
+ 
+	float Acal = 0;
+	float Acarb = 0;
+	float Afat = 0;
+	float Aprotein = 0;
+	int dailyin = 0;
+	
+	//int BreakFast = dailyin / 5;
+	////int IntBreakfast = dailyin / 5;
+	//int Lunch = 0;
+	//int Dinner = 0;
+	//int Snacks = 0;
+public:
+kcalCounter() {
+		cout << "The Guide: \n";
+	    cout << "Add food : .eat('food').\n";
+		cout << "Get Daily Calories/Macros : .dailyincalc.\n";
+		cout << "Track what you did : .view/.veiw('wanted attribute').\n";
+		cout << "\n";
+	}	
+	void view() { // General
+		cout << "Your Calories: " << Acal << endl;
+		cout << "Your Carbs: " << Acarb << endl;
+		cout << "Your Protein: " << Aprotein << endl;
+		cout << "Your Fat: " << Afat << endl;
+		cout << "  \n";
+	} // ***
+
+	void view(string macro) { // 
+		if (macro == "Calories" || macro == "cal"){
+			cout << "Your Calories " << Acal << endl;
+		}
+		else  if (macro == "Protein" || macro == "protein") {
+			cout << "Your Protein " << Aprotein << endl;
+		}
+		else if (macro == "Fat" || macro == "fat"){
+			cout << "Your Fat " << Afat << endl;
+		}
+		else  if (macro == "Carb" || macro == "carb"){
+			cout << "Your Carbs " << Acarb << endl;
+		}
+		else if (macro == "Daily Intake" || macro == "intake" || macro == "in"){
+			cout << "Your Daily Intake of Calories is " << dailyin << endl;
+		}
+
+		/*else if (macro == "BreakFast" || macro == "b") {
+			cout << "Breakfast Calories is " << BreakFast << endl;
+		}
+
+		else if (macro == "Lunch" || macro == "l") { 
+			cout << "Lunch Calories is " << Lunch << endl; 
+		}
+			
+		
+		else if (macro == "Dinner" || macro == "d") {
+			cout << "Dinner Calories is " << Dinner << endl;
+		}
+		else if (macro == "Snacks" || macro == "s") {
+			cout << "Snacks Calories is " << Snacks << endl;
+		}*/
+		cout << "  \n";
+	} // ***
+
+	void dailyincalc() {
+
+		/*Prototype:
+		  Men: (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5.
+	      Women : (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161.*/
+		string gender;
+		int weight;
+		int height;
+		int age;
+		string goal;
+		cout << "Hello Please Enter the Following Requirments.\n";
+		cout << "Starting with gender: ";
+		cin >> gender;
+		cout << "Weight? ";
+		cin >> weight;
+		cout << "Height? ";
+		cin >> height;
+		cout << "Age? ";
+		cin >> age;
+		cout << "Goal? ";
+		cin >> goal;
+
+		if (gender == "Male" || gender == "m") {
+			dailyin = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+		}
+		else if (gender == "Female" || gender == "f") {
+			dailyin = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+		}
+		if (goal == "Gain") {
+			dailyin += 500;
+		}
+		else if (goal == "Lose") {
+			dailyin -= 500;
+		}
+	} // ***
+
+	void dailyincalc(string gender, int weight, int height, int age, string goal) {
+
+		/*Prototype:  Men: (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) + 5.
+				  Women : (10 × weight in kg) + (6.25 × height in cm) - (5 × age in years) - 161.*/
+
+		if (gender == "Male" || gender == "m") {
+			dailyin = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+		}
+
+		else if (gender == "Female" || gender == "f") {
+			dailyin = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+		}
+		if (goal == "Gain") {
+			dailyin += 500;
+		}
+		else if (goal == "Lose") {
+			dailyin -= 500;
+		}
+	}
+
+	void eat(counter food, float gram) {	
+		
+		Acal +=food.getCal() * gram;
+		Acarb += food.getCal() * gram *food.getCar() /4;
+		Afat += food.getCal() * gram *food.getFat() /9;
+		Aprotein += food.getCal() * gram *food.getPro() /4;
+	}
+    
+	void track() {
+		if (Acal > dailyin) {
+			cout << Acal - dailyin << " Calories Over\n";
+		}
+		else if (Acal < dailyin) {
+			cout << dailyin - Acal << " Calories Left\n";
+		}
+		else if (Acal == dailyin) {
+			cout << "On Track\n";
+		}
+	
+	}
+
+    void Howhealthy(counter food){
+		
+		if(food.CalDense())
+			cout << "Calorie dense ";
+		if(food.getFat() > 0.50)
+			cout << "High in fat ";
+		if(food.Pross())
+			cout << "Processed";	
+		
+	}
+  
+};
+counter BaladyBread(1.5,0.8,0.17,0.03);
+counter BoiledEgg(1.55,0.03,0.34,0.63);
+counter MilkSkimmed(0.33,.56,.38,.06);
+counter WhiteRice(3.6,0.9,0.08,.02);
+counter CocaCola(0.3,1,0,0);
