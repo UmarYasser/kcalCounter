@@ -24,13 +24,22 @@ const foodSchema = new mongoose.Schema({
         type:Number,
         required:[true,'All Macros are required'],
     },
-    processed:Boolean,
-    calorieDense:Boolean,
+    processed:{
+        type:Boolean,
+        default:false
+    },
+    calorieDense:{
+        type:Boolean,
+        default:false
+    }
 })
 
 foodSchema.pre('save',function(next){
     if(this.calories >=3){
         this.calorieDense =true;
+    }
+    if(this.carb <=1){
+        this.carb = this.carb*100 + '%'
     }
     next();
 })
