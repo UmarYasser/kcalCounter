@@ -14,6 +14,7 @@ exports.addFood = asyncErHandler( async(req,res,next)=>{
     })
 })
 
+
 exports.getAllFood = asyncErHandler(async(req,res,next)=>{
 
      const features = new apiFeatures(Food.find(),req.query)

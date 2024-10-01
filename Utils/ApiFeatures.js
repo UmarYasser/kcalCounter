@@ -39,23 +39,12 @@ class apiFeatures{
         if(this.queryStr.fields){    
             const limitBy = this.queryStr.fields.split(',').join(' ');
             this.query = this.query.select(limitBy);
-
         }else{
             this.query = this.query.select('-__v');
         }
         return this
     }
-    /*
-    limitFields(){
-        if(this.queryStr.fields){
-            const fields = this.queryStr.fields.split(',').join(' ');
-            this.query = this.query.select(fields);
-        }else{
-            this.query = this.query.select('-__v');
-        }
 
-        return this;
-    } */
    
 }
 

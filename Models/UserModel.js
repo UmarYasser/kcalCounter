@@ -44,6 +44,10 @@ const userSchema = new mongoose.Schema({
         type:Boolean,
         default:true
     },
+    diet:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Diet'
+    },
     photo:String,
     passwordChangedAt:{type: Date, default:1727450553, select:false},
     PWResetToken:String,
