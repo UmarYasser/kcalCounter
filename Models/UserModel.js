@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 
 
 const userSchema = new mongoose.Schema({
@@ -22,6 +23,7 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required:[true,"Password is Required"],
+        select:false
     },
     confirmPassword:{
         type:String,
@@ -38,8 +40,14 @@ const userSchema = new mongoose.Schema({
         enum:['user','admin'],
         default:'user'
     },
+    active:{
+        type:Boolean,
+        default:true
+    },
     photo:String,
-    passwordChangedAt:Date,
+    passwordChangedAt:{type: Date, default:1727450553, select:false},
+    PWResetToken:String,
+    PWResetTokenExpires:Date
 })
 
 userSchema.pre('save',async function(next){
@@ -52,21 +60,32 @@ userSchema.pre('save',async function(next){
     next()
 })
 
+userSchema.pre(/^find/,function(next){
+    this.find({active:true});
+    next();
+})
+
 userSchema.methods.comparePassword = async(pass,passDB)=>{
     return  await bcrypt.compare(pass,passDB)
 }
 
 userSchema.methods.isPasswordChangedAfIs = async function(JWTTS){
     if(this.passwordChangedAt){
-        const psChangeTS = parseInt(this.passwordChangedAt.getTime());
+        const psChangeTS = parseInt(this.passwordChangedAt.getTime() /1000,10);
+        
         return JWTTS <psChangeTS;
     }
-    next()
+    return false
+}
+
+userSchema.methods.RPT = async function(){
+    const token = crypto.randomBytes(32).toString('hex')
+    this.PWResetToken = crypto.createHash('sha256').update(token).digest('hex');
+
+    this.PWResetTokenExpires = Date.now()+ 10*60*1000
+    return token
 }
 
 const User = new mongoose.model("User",userSchema,"User");
-
-
-
 
 module.exports = User
