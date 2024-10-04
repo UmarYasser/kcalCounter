@@ -3,13 +3,16 @@ const User = require('./../Models/UserModel');
 
 
 const dietSchema= new mongoose.Schema({
+    food:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Food"
+    }],
     user:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User',
         requried:true
     },
-    food:{type:mongoose.Schema.Types.ObjectId,ref:"Food"},
-    date:{type: Date},
+    date:Date,
     weight:{
         type:Number,
         required:true
@@ -26,20 +29,20 @@ const dietSchema= new mongoose.Schema({
         type:String,
         enum:['male','female']
     },
-    meals:[{
-        name:String, // Breakfast,Lunch,Dinner
-        calories:Number,
-        macros:{
-            carb:Number,
-            protien:Number,
-            fat:Number
-        }
-    }],
     range:{
         minRange:Number,
         maxRange:Number
     },
     dailyIntake:Number,
+    carbIntake:{
+        type:Number,
+    },
+    protienIntake:{
+        type:Number,
+    },
+    fatIntake:{
+        type:Number,
+    },
     goal:{
         type:String,
         enum:['gain','lose','maintain'],
@@ -51,25 +54,65 @@ const dietSchema= new mongoose.Schema({
         max:7,
         default:0   
     },
-
+    active:{
+        type:Boolean,
+        default:true
+    },
+    foodName:String
 })
 
 dietSchema.pre('save',function(next){
     //Calculations done according to input
     if(this.gender === 'male') gen =5
     else if(this.gender === 'female') gen = -161
+
+    //for Basic Metabolic Rate (BMR)
     this.dailyIntake = (10 * this.weight) + (6.25 * this.height) - (5 * this.age) + gen;
 
-    const burnedCal = 4 * this.weight * this.daysWorkingOut;
+    //Phyiscal Activity
+    switch(this.daysWorkingOut){
+        case 0:
+            this.dailyIntake*=1.2;
+            break;
+        case 1 || 2 :
+            this.dailyIntake*=1.375;
+            break;
+        case 3 || 4 :
+            this.dailyIntake*=1.55;
+            break;
+        case 5:
+            this.dailyIntake*=1.73;
+            break;
+        case 6||7:
+            this.dailyIntake*=1.9;
+            break; 
+        default: this.dailyIntake*=1.2
+            break;
+    }
 
     if(this.goal === 'gain') this.dailyIntake +=500;
     if(this.goal === 'lose') this.dailyIntake -=500;
     //this.dailyIntake -=burnedCal;
     //--------------
-
+    if(this.goal === "lose"){
+        this.carbIntake = this.dailyIntake*0.35 /4
+        this.protienIntake = this.dailyIntake*0.35 /4
+        this.fatIntake = this.dailyIntake*0.30 /9
+    } else if(this.goal === "maintain"){
+        this.carbIntake = this.dailyIntake*0.45 /4
+        this.protienIntake = this.dailyIntake*0.25 /4
+        this.fatIntake = this.dailyIntake*0.30 /9
+    } else if(this.goal === "gain"){
+        this.carbIntake = this.dailyIntake*0.50 /4
+        this.protienIntake = this.dailyIntake*0.30 /4
+        this.fatIntake = this.dailyIntake*0.20 /9
+    }
+    this.carbIntake = this.carbIntake.toFixed(1)
+    this.protienIntake = this.protienIntake.toFixed(1)
+    this.fatIntake = this.fatIntake.toFixed(1)
     next()
 })
 
-const Diet = new mongoose.model('Diet',dietSchema,'Diet');
+const Diet =  mongoose.model('Diet',dietSchema,'Diet');
 
 module.exports = Diet

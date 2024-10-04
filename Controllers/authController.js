@@ -77,7 +77,7 @@ exports.protect = asyncErHandler(async(req,res,next) =>{ //req.headers.authoriza
 
 exports.strict = (...role) =>{
     return function(req,res,next){
-        if(!role.includes(req.user.role)){
+        if(!role.includes(req.user.roles)){
             return next(new CustomError("You Don't have the permission to perform this action.",403));
         }
         next();

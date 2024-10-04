@@ -43,3 +43,13 @@ exports.getAllFood = asyncErHandler(async(req,res,next)=>{
         }
     })
 })
+
+exports.editFood = asyncErHandler(async(req,res,next)=>{
+  const food = await Food.findByIdAndUpdate(req.params.id,req.body,{new:true});
+  await food.save();
+  res.status(200).json({
+    status:"success",
+    data:{food}
+  })
+
+})

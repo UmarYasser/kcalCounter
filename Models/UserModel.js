@@ -90,6 +90,6 @@ userSchema.methods.RPT = async function(){
     return token
 }
 
-const User = new mongoose.model("User",userSchema,"User");
+const User = mongoose.model("User",userSchema,"User");
 
 module.exports = User
