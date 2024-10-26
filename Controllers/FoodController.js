@@ -53,3 +53,15 @@ exports.editFood = asyncErHandler(async(req,res,next)=>{
   })
 
 })
+
+exports.deleteFood = asyncErHandler(async(req,res,next)=>{
+    const foodId = await Food.findByIdAndDelete(req.params.id)
+    if(!foodId) 
+        return next(new CustomError("No Food Found",401))
+
+    res.status(200).json({
+        status:"success",
+        data: null
+    })
+
+})

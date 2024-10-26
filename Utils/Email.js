@@ -9,6 +9,7 @@ exports.sendEmail = async(option)=>{
             pass:process.env.EMAIL_PASS
         }
     })
+    
     const emailOptions = {
         from:'KcalCounter Support<kcalCounter@gmail.com>',
         to:option.email,

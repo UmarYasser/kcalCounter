@@ -22,7 +22,6 @@ const server = app.listen(PORT,() =>{
 process.on('unhandledRejection',(err)=>{
     console.log(err.name,':',err.message),
     console.log('Unhandled Rejection, Self Destructing now...');
-
     server.close(() =>{
         process.exit(1);
     })

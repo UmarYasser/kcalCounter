@@ -1,4 +1,6 @@
 const Diet = require('./../Models/DietModel');
+const Food = require('./../Models/FoodModel');
+
 const CustomError =require('./../Utils/CustomError');
 const {asyncErHandler} = require('./GlobalErrorHandler');
 const ApiFeatures = require('./../Utils/ApiFeatures')
@@ -82,3 +84,22 @@ exports.deleteDiet = asyncErHandler(async(req,res,next)=>{
         data:null
     })
 })
+
+exports.makeFavorite = asyncErHandler(async(req,res,next)=>{
+    const foodId = req.body.foodId;
+    const diet = await Diet.findOne({user:req.user._id});
+    const food = await Food.findById(foodId)
+    
+    if(!foodId){
+        return next(new CustomError("There's no food with this ID"));
+    }
+ 
+    diet.favorites.push({food:foodId,foodName:food.name}) 
+    await diet.save({new:true})
+    res.status(200).json({
+        status:"success",
+        message:"food pushed successfully",
+        favorites:diet.favorites
+    })   
+})
+

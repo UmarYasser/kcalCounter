@@ -91,14 +91,16 @@ exports.forgotPassword = asyncErHandler(async(req,res,next) =>{
         const err = new CustomError('Email Not Found!',401);
         return next(err);
     }
-    const token = await user.RPT()
-    await user.save({validatorsBeforeSave:false})
+
+    //2.Make a token and save it encrypted in the db
+    const token = await user.RPT() 
+    await user.save({validatorsBeforeSave:false}) 
 
     const devUrl ='legendary-tribble-97j6pwxvx9vpcx6r.github.dev';
     const resetUrl = `https://${devUrl}/api/v1/auth/resetPassword/${token}`;
 
     const message = `We have recieved a request to reset your password\n\nFollow this link\n${resetUrl}\n\nThis link in only valid for 10 mins`;
-    
+    //3.send it the user's gmail
     try{
         await Email.sendEmail({
             email:user.email,

@@ -33,7 +33,10 @@ const dietSchema= new mongoose.Schema({
         minRange:Number,
         maxRange:Number
     },
-    dailyIntake:Number,
+    dailyIntake:{
+        type:Number,
+        default:0
+    },
     carbIntake:{
         type:Number,
     },
@@ -58,7 +61,16 @@ const dietSchema= new mongoose.Schema({
         type:Boolean,
         default:true
     },
-    foodName:String
+    favorites:[{
+        "_id":false,
+        food:{
+
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"Food"
+        },
+        foodName:String
+    }],
+    foodName:String 
 })
 
 dietSchema.pre('save',function(next){
@@ -92,7 +104,6 @@ dietSchema.pre('save',function(next){
 
     if(this.goal === 'gain') this.dailyIntake +=500;
     if(this.goal === 'lose') this.dailyIntake -=500;
-    //this.dailyIntake -=burnedCal;
     //--------------
     if(this.goal === "lose"){
         this.carbIntake = this.dailyIntake*0.35 /4
