@@ -21,6 +21,7 @@ exports.signUp = asyncErHandler(async(req,res,next)=>{
             user
         }
     })
+    
 })
 
 exports.logIn = asyncErHandler(async(req,res,next)=>{

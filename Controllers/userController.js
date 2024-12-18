@@ -2,6 +2,7 @@ const CustomError = require('../Utils/CustomError');
 const User = require('./../Models/UserModel');
 const { asyncErHandler } = require('./GlobalErrorHandler');
 const jwt = require('jsonwebtoken')
+const Api = require('./../Utils/ApiFeatures')
 
 const signToken = (id) =>{
     return jwt.sign({id:id},process.env.SECRET_STR,{expiresIn:process.env.EXPIRES_IN})
@@ -70,6 +71,19 @@ exports.deleteMe = asyncErHandler( async(req,res,next)=>{
     const user = await User.findByIdAndUpdate(req.user._id,{active:false});
     res.status(204).json({
         status:'success',
-        data:null
+        data:user
+    })
+})
+
+exports.showAllUsers = asyncErHandler(async(req,res,next) =>{
+    const features = new Api(User.find(),req.query).sort().paginate().filter().limitFields()
+    const users = await features.query
+    if(!users){
+        return next(CustomError("No Users are in the database",404))
+    }
+    res.status(200).json({
+        status:'success',
+        count:users.length,
+        users
     })
 })
