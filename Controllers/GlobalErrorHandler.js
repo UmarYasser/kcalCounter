@@ -1,8 +1,8 @@
 const CustomError = require('./../Utils/CustomError');
 
 const asyncErHandler = (func) =>{
-    return (req,res,next) =>{
-        func(req,res,next).catch(err => next(err));
+    return (req,res,next) =>{ // When next has a parameter => then it knows it must go to the error middleware
+        func(req,res,next).catch(err => next(err)); // The Error Middleware is the middleware that has 4 parameters (err,req,res,next)
     }
 }
 
@@ -49,6 +49,7 @@ const prodError = (res,err) =>{
     }
 }
  */
+
 
 const errorHandler = (err,req,res,next) =>{
     err.statusCode = err.statusCode || 500

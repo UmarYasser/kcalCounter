@@ -14,13 +14,15 @@ const xss = require('xss-clean')
 const sanitize = require("express-mongo-sanitize")
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet')
+const cp = require('cookie-parser')
 
-app.use(express.json()) 
 /*app.use(xss)
 app.use(sanitize)
 */
+app.use(express.json()) 
 app.use(helmet())
 app.use(express.static('./public'))
+app.use(cp())
 app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1/food',foodRouter)
 app.use('/api/v1/auth',authRouter)

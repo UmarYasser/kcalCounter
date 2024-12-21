@@ -10,16 +10,28 @@ const signToken = (id) =>{
     return jwt.sign({id:id},process.env.SECRET_STR)
 }
 
+
 exports.signUp = asyncErHandler(async(req,res,next)=>{
     const user = await User.create(req.body);
 
     const token = signToken(user._id)
+
+    options= {
+        httpOnly:true,
+        maxAge:process.env.EXPIRES_IN
+    }
+
+    data = user
+    if(process.env.NODE_ENV == 'production')
+        data = null
+        options.secure = true
+
+
+    res.cookie('jwt',token,options)
     res.status(201).json({
         status:'success',
         token,
-        data:{
-            user
-        }
+        data
     })
     
 })
@@ -44,6 +56,14 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
 
     const loginToken = signToken(user._id)
 
+    options = {
+        httpOnly:true,
+        maxAge:process.env.EXPIRES_IN
+    }
+
+    if(process.env.NODE_ENV === 'production')
+        options.secure = true
+    res.cookie('jwt',loginToken, options)
     res.status(200).json({
         status:'success',
         token:loginToken,
@@ -52,17 +72,18 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
 
 exports.protect = asyncErHandler(async(req,res,next) =>{ //req.headers.authorization = bearer token
     //1
-    const testToken = req.headers.authorization.split(' ');
+    // const testToken = req.headers.authorization.split(' ');
     
-    if(!testToken || !testToken[0] === 'bearer'){
-        const err = new CustomError('Enter a Valid Token in the Request Headers',400)
-        return next(err)
-    }
-    let token = testToken[1];
+    // if(!testToken || !testToken[0] === 'bearer'){
+    //     const err = new CustomError('Enter a Valid Token in the Request Headers',400)
+    //     return next(err)
+    // }
+
+    let token = req.cookies.jwt || testToken[1] ;
     
     //2
     const decoded = await util.promisify(jwt.verify)(token,process.env.SECRET_STR); // return user._id, issued at (iat)
-
+  
     const user = await User.findById(decoded.id);
 
     if(!user)
@@ -149,3 +170,10 @@ exports.resetPassword = asyncErHandler(async(req,res,next)=>{
     })
 
 })
+
+// exports.authCookie = asyncErHandler(async(req,res,next)=>{
+//     const token = req.cookies.jwt
+//     const decoded = await util.promisify(jwt.verify)(token,process.env.SECRET_STR)
+
+//     req.user._id
+// }

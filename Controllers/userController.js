@@ -49,7 +49,9 @@ exports.updateMe = asyncErHandler( async(req,res,next)=>{
     if(req.body.password || req.body.confrimpassword){
         return next(new CustomError("You can't update password from this endpoint",400));
     }
-
+    if(req.body.passwordChangedAt || req.body.PWResetTokenExpires || req.body.PWResetToken)
+        return next(new CustomError("You can't touch these info...",403))
+    
     const allowedFields = ['name','email','photo'];
     const filterObj = filterReq(req.body,...allowedFields);
 

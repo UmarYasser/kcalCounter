@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema({
         ref:'Diet'
     },
     photo:String,
-    passwordChangedAt:{type: Date, default:1727450553, select:false},
+    passwordChangedAt:{type: Date, default:null, select:false},
     PWResetToken:String,
     PWResetTokenExpires:Date
 })
