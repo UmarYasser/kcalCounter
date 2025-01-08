@@ -17,22 +17,20 @@ exports.signUp = asyncErHandler(async(req,res,next)=>{
     const token = signToken(user._id)
 
     options= {
-        httpOnly:true,
-        maxAge:process.env.EXPIRES_IN
+        httpOnly:false,
+        maxAge:process.env.EXPIRES_IN,
+        sameSite:'Strict',
+        path:'/'
     }
 
     data = user
-    if(process.env.NODE_ENV == 'production')
+    if(process.env.NODE_ENV == 'production'){
         data = null
         options.secure = true
-
-
+    }
+    
     res.cookie('jwt',token,options)
-    res.status(201).json({
-        status:'success',
-        token,
-        data
-    })
+    res.status(201).redirect('/LogIn.html')
     
 })
 
@@ -57,7 +55,7 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
     const loginToken = signToken(user._id)
 
     options = {
-        httpOnly:true,
+        httpOnly:false,
         maxAge:process.env.EXPIRES_IN
     }
 
@@ -72,14 +70,14 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
 
 exports.protect = asyncErHandler(async(req,res,next) =>{ //req.headers.authorization = bearer token
     //1
-    // const testToken = req.headers.authorization.split(' ');
+    const testToken = req.headers.authorization.split(' ') || null;
     
-    // if(!testToken || !testToken[0] === 'bearer'){
-    //     const err = new CustomError('Enter a Valid Token in the Request Headers',400)
-    //     return next(err)
-    // }
+    if(!testToken || !testToken[0] === 'bearer'){
+        const err = new CustomError('Enter a Valid Token in the Request Headers',400)
+        return next(err)
+    }
 
-    let token = req.cookies.jwt || testToken[1] ;
+    let token = testToken[1] ||req.cookies.jwt;
     
     //2
     const decoded = await util.promisify(jwt.verify)(token,process.env.SECRET_STR); // return user._id, issued at (iat)
@@ -116,11 +114,11 @@ exports.forgotPassword = asyncErHandler(async(req,res,next) =>{
 
     //2.Make a token and save it encrypted in the db
     const token = await user.RPT() 
-    await user.save({validatorsBeforeSave:false}) 
+    await user.save({validateBeforeSave:false}) 
 
-    const devUrl ='legendary-tribble-97j6pwxvx9vpcx6r.github.dev';
+    const devUrl ='expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev';
     const resetUrl = `https://${devUrl}/api/v1/auth/resetPassword/${token}`;
-
+    //https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/
     const message = `We have recieved a request to reset your password\n\nFollow this link\n${resetUrl}\n\nThis link in only valid for 10 mins`;
     //3.send it the user's gmail
     try{
@@ -136,7 +134,7 @@ exports.forgotPassword = asyncErHandler(async(req,res,next) =>{
     }catch(err){
         user.PWResetToken = undefined;
         user.PWResetTokenExpires = undefined;
-        await user.save({validatorsBeforeSave:false});
+        await user.save({validateBeforeSave:false});
 
         return next( new CustomError("Couldn't send Email",err.message,405))
     }

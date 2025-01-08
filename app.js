@@ -9,7 +9,8 @@ const favoriteRouter = require('./Routes/favoriteRoute');
 const exerciseRouter = require('./Routes/exerciseRouter')
 const GlobalErrHandler = require('./Controllers/GlobalErrorHandler')
 const Home = fs.readFileSync('./public/template/Home.html');
-const index = fs.readFileSync('./public/template/index.html');
+const SignUp = fs.readFileSync('./public/template/SignUp.html');
+const LogIn = fs.readFileSync('./public/template/LogIn.html');
 const xss = require('xss-clean')
 const sanitize = require("express-mongo-sanitize")
 const rateLimit = require('express-rate-limit');
@@ -24,6 +25,7 @@ app.use(helmet())
 app.use(express.static('./public'))
 app.use(cp())
 app.use(express.urlencoded({ extended: true }));
+
 app.use('/api/v1/food',foodRouter)
 app.use('/api/v1/auth',authRouter)
 app.use('/api/v1/users',userRouter)
@@ -35,8 +37,19 @@ app.use(GlobalErrHandler.errorHandler)
 
 app.get('/',(req,res)=>{
     res.setHeader('Content-Type','text/html');
-    //res.setHeader('Referrer-Policy', 'no-referrer-when-downgrade'); 
-    res.end(index);
+    res.end(SignUp);
+    
+})
+app.post('/',(req,res)=>{
+    res.setHeader('Content-Type','text/html');
+    res.redirect(LogIn);
+
+})
+
+app.get('/LogIn.html',(req,res)=>{
+    res.setHeader('Content-Type','text/html');
+    
+    res.end(LogIn);
 })
 
 module.exports = app    
