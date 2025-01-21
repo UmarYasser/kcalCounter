@@ -7,10 +7,8 @@ const userRouter = require('./Routes/userRouter');
 const trackerRouter = require('./Routes/trackerRouter');
 const favoriteRouter = require('./Routes/favoriteRoute');
 const exerciseRouter = require('./Routes/exerciseRouter')
+const pageRouter = require('./Routes/pagesRouter')
 const GlobalErrHandler = require('./Controllers/GlobalErrorHandler')
-const Home = fs.readFileSync('./public/template/Home.html');
-const SignUp = fs.readFileSync('./public/template/SignUp.html');
-const LogIn = fs.readFileSync('./public/template/LogIn.html');
 const xss = require('xss-clean')
 const sanitize = require("express-mongo-sanitize")
 const rateLimit = require('express-rate-limit');
@@ -32,24 +30,8 @@ app.use('/api/v1/users',userRouter)
 app.use('/api/v1/tracker',trackerRouter);
 app.use('/api/v1/exercise',exerciseRouter);
 app.use('/api/v1/favorites',favoriteRouter)
+app.use('/',pageRouter)
 
 app.use(GlobalErrHandler.errorHandler)
-
-app.get('/',(req,res)=>{
-    res.setHeader('Content-Type','text/html');
-    res.end(SignUp);
-    
-})
-app.post('/',(req,res)=>{
-    res.setHeader('Content-Type','text/html');
-    res.redirect(LogIn);
-
-})
-
-app.get('/LogIn.html',(req,res)=>{
-    res.setHeader('Content-Type','text/html');
-    
-    res.end(LogIn);
-})
 
 module.exports = app    

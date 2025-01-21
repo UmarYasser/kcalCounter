@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tracker Page</title>
+</head>
+<body>
+    <h3>Display Which Day:    
+    <input id ="dateInput" type="date" name="date">
+    <button id="viewTracker" >View</button>
+    <p id="viewDateMessage"></p>
+    </h3>
+    <div id="trackerData"></div>
+    <h3  id="Food Menu" hidden>Add Food:
+        <form id="EatAPI">
+            <input list="foodSelect" name="foodName" placeholder="Select Food..." required>
+            <datalist id="foodSelect">
+                <option value="test">test</option>
+                <option value="test2">test2</option>
+            </datalist>
+            <input id="grams" type="number" name="grams" placeholder="Grams..." min="0" step="2" >
+            <input id="eat" type="submit" value="Eat">
+            <br>
+            <h5>
+            <input type ="radio" name="meal" value="Breakfast" required>
+            <label>Breakfast</label>
+            <input type ="radio" name="meal" value="Lunch" required>
+            <label>Lunch</label>
+            <input type ="radio" name="meal" value="Dinner" required>
+            <label>Dinner</label>
+            <input type ="radio" name="meal" value="Snacks" required>
+            <label>Snacks</label>
+            </h5>               
+        </form>
+    </h3>
+
+
+    <h3 id="Exercise Menu" hidden>Add Exersice:
+        <form id="ExersiceAPI">
+        <input list="exerciseSelect" name="exerciseName" placeholder='Select Exercise...' required>
+        <datalist id="exerciseSelect">
+            <option value="test">
+        </datalist>
+        <input type="number" id="time" name="duration" placeholder='Duration in mins...' step="2" required>
+        <input type="submit" id="exercise" name="exercise" value="Exercise">
+
+        </form>
+    </h3>
+    <p id ="responseMessage"></p>
+    
+    <script src="../Scripts/Tracking.js"></script>
+</body>
+</html>

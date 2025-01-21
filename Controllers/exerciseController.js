@@ -14,3 +14,12 @@ exports.addExercise = asyncErHandler(async(req,res,next)=>{
     })
 
 })
+
+exports.showAllExercise = asyncErHandler( async(req,res,next) =>{
+    const exercises = await Exercise.find()
+
+    res.status(200).json({
+        count:exercises.length,
+        data:exercises
+    })
+})

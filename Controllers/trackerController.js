@@ -10,22 +10,12 @@ const ApiFeatures = require('./../Utils/ApiFeatures')
 //Has Protect Middleware Before it
 exports.eat = asyncErHandler(async(req,res,next)=>{
     const user = req.user;
-    let {foodId,foodName} = req.body
-    
-    if(foodName){   
-        const foodArray = await Food.find({name: {$regex: foodName,$options:'i'}});
-        if(foodArray.length === 0){
-            return next(new CustomError("No Results Found",400));
-        }
-        res.status(200).json({
-            foodArray
-        })
-    }
-    
-    if(foodId){
-            foodId = await Food.findById(req.body.foodId);
+    let {foodName} = req.body
+    let food
+    if(foodName){
+            food = await Food.findOne({name:foodName});
 
-            if(!foodId){
+            if(!food){
             return next(new CustomError("There's no food with this ID",400));
         }
     }
@@ -33,15 +23,8 @@ exports.eat = asyncErHandler(async(req,res,next)=>{
         return next(new CustomError("Enter the specified number of grams!",400))
     }
     const date = req.body.date;
-                                                 // 0123456789
-    let parseDate = new Date( // 03-10-2024 XX => 2024-10-03
-        date.substring(0,4),
-        date.substring(5,7)-1,
-        date.substring(8,10),        
-    )
-    parseDate.toString().split('T')[0]
 
-    let tracker = await Tracker.findOne({user:user._id,date:parseDate}).populate('diet')
+    let tracker = await Tracker.findOne({user:user._id,date:date}).populate('diet')
     if(!tracker){
         console.log("Tracker Not found, Creating...")
         const diet = await Diet.findOne({user:user._id});
@@ -49,50 +32,53 @@ exports.eat = asyncErHandler(async(req,res,next)=>{
             console.log("Can't found Diet for that user")
             return next(new CustomError("Can't found Diet for that user",400))
         }
-        tracker = await Tracker.create({user:user._id,diet:diet,date:parseDate})
+        tracker = await Tracker.create({user:user._id,diet:diet,date:date})
 
         await tracker.populate('diet')
     }
-    tracker.eaten.calories += parseFloat((foodId.calories * req.body.grams).toFixed(0))
-    tracker.eaten.carb += parseFloat((foodId.carb * req.body.grams).toFixed(1))
-    tracker.eaten.protien += parseFloat((foodId.protien * req.body.grams).toFixed(1))
-    tracker.eaten.fat += parseFloat((foodId.fat * req.body.grams).toFixed(1))
+    tracker.eaten.calories += parseFloat((food.calories * req.body.grams).toFixed(0))
+    tracker.eaten.carb += parseFloat((food.carb * req.body.grams).toFixed(1))
+    tracker.eaten.protien += parseInt((food.protien * req.body.grams).toFixed(1))
+    tracker.eaten.fat += parseFloat((food.fat * req.body.grams).toFixed(1))
 
-    tracker.diet.foodName = foodId.name
+    tracker.diet.foodName = food.name
     if(!req.body.meal){
         return next(new CustomError("Meal is Required",400));
     }
     if(req.body.meal === "Breakfast"){
-        tracker.meals.Breakfast.calories += parseInt((foodId.calories * req.body.grams).toFixed(0))
-        tracker.meals.Breakfast.carb += parseInt((foodId.carb * req.body.grams).toFixed(0))
-        tracker.meals.Breakfast.protien += parseInt((foodId.protien * req.body.grams).toFixed(0))
-        tracker.meals.Breakfast.fat += parseInt((foodId.fat * req.body.grams).toFixed(0))
+        tracker.meals.Breakfast.calories += parseInt((food.calories * req.body.grams).toFixed(0))
+        tracker.meals.Breakfast.carb += parseInt((food.carb * req.body.grams).toFixed(0))
+        tracker.meals.Breakfast.protien += parseInt((food.protien * req.body.grams).toFixed(0))
+        tracker.meals.Breakfast.fat += parseInt((food.fat * req.body.grams).toFixed(0))
 
-        tracker.meals.Breakfast.foods.push({food:foodId._id,grams:req.body.grams,foodName:foodId.name})        
+        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})        
     }
     if(req.body.meal === "Lunch"){
-        tracker.meals.Lunch.calories += (foodId.calories * req.body.grams).toFixed(0)
-        tracker.meals.Lunch.carb += (foodId.carb * req.body.grams).toFixed(0)
-        tracker.meals.Lunch.protien += (foodId.protien * req.body.grams).toFixed(0)
-        tracker.meals.Lunch.fat += (foodId.fat * req.body.grams).toFixed(0);
-        tracker.meals.Breakfast.foods.push({food:foodId._id,grams:req.body.grams})
-        tracker.meals.Breakfast.foods.push({food:foodId._id,grams:req.body.grams,foodName:foodId.name})
+        tracker.meals.Lunch.calories += (food.calories * req.body.grams).toFixed(0)
+        tracker.meals.Lunch.carb += (food.carb * req.body.grams).toFixed(0)
+        tracker.meals.Lunch.protien += (food.protien * req.body.grams).toFixed(0)
+        tracker.meals.Lunch.fat += (food.fat * req.body.grams).toFixed(0);
+        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams})
+        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
     }
     if(req.body.meal === "Dinner"){
-        tracker.meals.Dinner.calories += (foodId.calories * req.body.grams).toFixed(0)
-        tracker.meals.Dinner.carb += (foodId.carb * req.body.grams).toFixed(0)
-        tracker.meals.Dinner.protien += (foodId.protien * req.body.grams).toFixed(0)
-        tracker.meals.Dinner.fat += (foodId.fat * req.body.grams).toFixed(0);
-        tracker.meals.Breakfast.foods.push({food:foodId._id,grams:req.body.grams,foodName:foodId.name})
+        tracker.meals.Dinner.calories += (food.calories * req.body.grams).toFixed(0)
+        tracker.meals.Dinner.carb += (food.carb * req.body.grams).toFixed(0)
+        tracker.meals.Dinner.protien += (food.protien * req.body.grams).toFixed(0)
+        tracker.meals.Dinner.fat += (food.fat * req.body.grams).toFixed(0);
+        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
     }
     if(req.body.meal === "Snacks"){
-        tracker.meals.Snacks.calories += (foodId.calories * req.body.grams).toFixed(0)
-        tracker.meals.Snacks.carb += (foodId.carb * req.body.grams).toFixed(0)
-        tracker.meals.Snacks.protien += (foodId.protien * req.body.grams).toFixed(0)
-        tracker.meals.Snacks.fat += (foodId.fat * req.body.grams).toFixed(0);
-        tracker.meals.Snacks.foods.push({food:foodId._id,grams:req.body.grams,foodName:foodId.name})
+        tracker.meals.Snacks.calories += (food.calories * req.body.grams).toFixed(0)
+        tracker.meals.Snacks.carb += (food.carb * req.body.grams).toFixed(0)
+        tracker.meals.Snacks.protien += (food.protien * req.body.grams).toFixed(0)
+        tracker.meals.Snacks.fat += (food.fat * req.body.grams).toFixed(0);
+        tracker.meals.Snacks.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
     }    
-
+    tracker.eaten.carb= Math.round(tracker.eaten.carb)
+    tracker.eaten.protien= Math.round(tracker.eaten.protien)
+    tracker.eaten.fat= Math.round(tracker.eaten.fat)
+    
     await tracker.save();
 
     res.status(201).json({
@@ -103,18 +89,11 @@ exports.eat = asyncErHandler(async(req,res,next)=>{
 
 //Has Protect Middleware Before it
 exports.exercise = asyncErHandler(async(req,res,next)=>{
-    //1.Get the specified tracker
+    //1.Get the specified tracker & Body
+    const {exerciseName,date} = req.body
     const user=  await User.findById(req.user._id)
-    const date = req.body.date;
-                                                 // 0123456789
-    let parseDate = new Date( // 03-10-2024 XX => 2024-10-03
-        date.substring(0,4),
-        date.substring(5,7)-1,
-        date.substring(8,10),        
-    )
-    parseDate.toString().split('T')[0]
 
-    let tracker = await Tracker.findOne({user:user._id,date:parseDate}).populate('diet')
+    let tracker = await Tracker.findOne({user:user._id,date:date}).populate('diet')
 
     if(!tracker){
         console.log("Tracker Not found, Creating...")
@@ -123,13 +102,13 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
             console.log("Can't found Diet for that user")
             return next(new CustomError("Can't found Diet for that user",400))
         }
-        tracker = await Tracker.create({user:user._id,diet:diet,date:parseDate})
+        tracker = await Tracker.create({user:user._id,diet:diet,date:date})
 
         await tracker.populate('diet')
     }
     //2.Calculate the exercise calories
-    const exercised = await Exercise.findById(req.body.exerciseID)
-    //tracker.exercise = exercised.MET * req.body.duration * tracker.diet.weight
+    const exercised = await Exercise.findOne({name:exerciseName})
+    
     // Need Adjusting ***************
     const carbpercent = (tracker.required.carb*4) / (tracker.required.calories)
     const fatpercent = (tracker.required.fat*9) / (tracker.required.calories)
@@ -137,15 +116,15 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
     const addedCarb = parseInt(((carbpercent * burnedCal) /4).toFixed(0))
     const addedFat = parseInt(((fatpercent * burnedCal) /9).toFixed(0))
     
+
     
     const exerciseObj = {
+        name:exercised.name,
         exer:exercised._id,
         calories:(exercised.MET * req.body.duration * tracker.diet.weight),
         carb: addedCarb,
-        fat: addedFat,
-        name:exercised.name
+        fat: addedFat
     }
-
 
     tracker.exercise.push(exerciseObj)
     
@@ -165,25 +144,23 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
 exports.display = asyncErHandler(async(req,res,next)=>{
     const user=  await User.findById(req.user._id)
     const date = req.params.date;
-                                                 // 0123456789
-    let parseDate = new Date( // 03-10-2024 XX => 2024-10-03
-        date.substring(0,4),
-        date.substring(5,7)-1,
-        date.substring(8,10),        
-    )
-    parseDate.toString().split('T')[0]
+  
 
-    let tracker = await Tracker.findOne({user:user._id,date:parseDate}).populate('diet')
+    let tracker = await Tracker.findOne({user:user._id,date:date}).populate('diet')
+    if(!await Tracker.findOne({user:user._id}))
+        console.log("TheProblem is in the user")
+    if(!await Tracker.findOne({date:date}))
+        console.log("TheProblem is in the date")
 
     if(!tracker){
         console.log("Tracker Not found, Creating...")
         const diet = await Diet.findOne({user:user._id});
+
         if(!diet){
             console.log("Can't found Diet for that user")
-            return next(new CustomError("Can't found Diet for that user",400))
+            console.log("Will Be Fixed Soon....")            
         }
-        tracker = await Tracker.create({user:user._id,diet:diet,date:parseDate})
-
+        tracker = await Tracker.create({user:user._id,diet:diet,date:date})
         await tracker.populate('diet')
     }
 
@@ -198,4 +175,5 @@ exports.display = asyncErHandler(async(req,res,next)=>{
             tracker
         }
     })
+
 })

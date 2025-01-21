@@ -17,7 +17,7 @@ exports.signUp = asyncErHandler(async(req,res,next)=>{
     const token = signToken(user._id)
 
     options= {
-        httpOnly:false,
+        httpOnly:true,
         maxAge:process.env.EXPIRES_IN,
         sameSite:'Strict',
         path:'/'
@@ -30,7 +30,9 @@ exports.signUp = asyncErHandler(async(req,res,next)=>{
     }
     
     res.cookie('jwt',token,options)
-    res.status(201).redirect('/LogIn.html')
+    setTimeout(() =>{
+    res.status(201).redirect('/SetUp.html')
+    },2000)
     
 })
 
@@ -55,29 +57,26 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
     const loginToken = signToken(user._id)
 
     options = {
-        httpOnly:false,
+        httpOnly:true,
         maxAge:process.env.EXPIRES_IN
     }
 
     if(process.env.NODE_ENV === 'production')
         options.secure = true
     res.cookie('jwt',loginToken, options)
-    res.status(200).json({
-        status:'success',
-        token:loginToken,
-    })
+    res.status(200).redirect('/SetUp.html')
 })
 
 exports.protect = asyncErHandler(async(req,res,next) =>{ //req.headers.authorization = bearer token
     //1
-    const testToken = req.headers.authorization.split(' ') || null;
+    // const testToken = req.headers.authorization.split(' ') || null;
     
-    if(!testToken || !testToken[0] === 'bearer'){
-        const err = new CustomError('Enter a Valid Token in the Request Headers',400)
-        return next(err)
-    }
+    // if(!testToken || !testToken[0] === 'bearer'){
+    //     const err = new CustomError('Enter a Valid Token in the Request Headers',400)
+    //     return next(err)
+    //}
 
-    let token = testToken[1] ||req.cookies.jwt;
+    let token = /*testToken[1] ||*/req.cookies.jwt;
     
     //2
     const decoded = await util.promisify(jwt.verify)(token,process.env.SECRET_STR); // return user._id, issued at (iat)

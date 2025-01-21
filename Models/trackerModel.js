@@ -12,8 +12,7 @@ const trackerSchema = new mongoose.Schema({
     },
     date:{
         type:Date,
-        required:[true,"The Date is Required in the tracker"],
-        unique:true
+        required:[true,"The Date is Required in the tracker"]
     },
     eaten:
         {
@@ -197,7 +196,6 @@ trackerSchema.pre('save',function(next){
     this.required.carb = this.diet.carbIntake
     this.required.protien = this.diet.protienIntake
     this.required.fat = this.diet.fatIntake
-    console.log(this.required.calories, this.diet.dailyIntake)
 
     this.meals.Breakfast.minrange = (this.diet.dailyIntake/5).toFixed(0)
     this.meals.Breakfast.maxrange = (this.diet.dailyIntake/3.333).toFixed(0)

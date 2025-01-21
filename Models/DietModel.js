@@ -79,7 +79,7 @@ dietSchema.pre('save',function(next){
     else if(this.gender === 'female') gen = -161
 
     //for Basic Metabolic Rate (BMR)
-    this.dailyIntake = (10 * this.weight) + (6.25 * this.height) - (5 * this.age) + gen;
+    this.dailyIntake = ((10 * this.weight) + (6.25 * this.height) - (5 * this.age) + gen).toFixed(0);
 
     //Phyiscal Activity
     switch(this.daysWorkingOut){
