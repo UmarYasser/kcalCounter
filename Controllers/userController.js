@@ -78,7 +78,7 @@ exports.deleteMe = asyncErHandler( async(req,res,next)=>{
 })
 
 exports.showAllUsers = asyncErHandler(async(req,res,next) =>{
-    const features = new Api(User.find(),req.query).sort().paginate().filter().limitFields()
+    const features = new Api(User.find({active:true}),req.query).sort().paginate().filter().limitFields()
     const users = await features.query
     if(!users){
         return next(CustomError("No Users are in the database",404))

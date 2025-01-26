@@ -18,7 +18,7 @@ document.getElementById("myForm").addEventListener("submit", async function (eve
     let resMessage = document.getElementById('responseMessage')
     try {
       // Replace '/your-endpoint' with your actual API endpoint
-      const response = await fetch('https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1/users/setUpDiet', {
+      const response = await fetch(`${url}/users/setUpDiet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ document.getElementById("myForm").addEventListener("submit", async function (eve
           "Form submitted successfully! Redirecting Now"
         },2500)
         setTimeout(() =>{
-          window.location.href = './Tracker.html'
+          window.location.href = './Tracker'
         },5000)
       } else {
         document.getElementById("responseMessage").textContent = 
@@ -44,6 +44,6 @@ document.getElementById("myForm").addEventListener("submit", async function (eve
       }
     } catch (error) {
       document.getElementById("responseMessage").textContent = 
-        `Error: ${error.message}`;
+        `Error: ${error.message} ✗`;
     }
   });  

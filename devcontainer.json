@@ -10,7 +10,7 @@
       "remote.portAttributes": {
         "3000": {
           "label": "Application Port",
-          "onAutoForward": "public"
+          "onAutoForward": "Public"
         }
       }
     }

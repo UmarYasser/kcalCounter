@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Admin Page</title>
+    </head>
+    <body>
+        <h1>Welcome Admin, Or You Should be... </h1>
+        <img src="./../img/admin.PNG" width="100">
+        <h3>Add Food To Database:</h3>
+            <form id="foodDB">
+                <p>*Marcos and Calories are  entered per <b>1 gm</b></p>
+                <fieldset>
+                    <legend>Food Requirments</legend>
+                <input type='text' id="foodName" name="name" placeholder="Name" required required>
+                <input type='text' id="cal" name="calories" placeholder="Calories" required>
+                <input type='text' id="carb" name="carb" placeholder="Carbs" required>
+                    
+                <input type='text' id="protien" name="protien" placeholder="Protien" required>
+                <input type='text' id="fat" name="fat" placeholder="Fat" required>
+
+                <br>
+                <input type="checkbox" id="processed" name="processed">
+                <label>Processed?</label>
+
+                <input type="checkbox" id="sugar" name="highSugar">
+                <label>High In Sugar?</label>
+                <br>
+                <input type="submit" value="Add">
+                </fieldset>
+            </form>
+            <hr>
+        <h3>Add Exercise to Database:</h3>
+            <form id="ExerciseDB">
+                <fieldset>
+                <input type="text" name="name" placeholder="Exercise Name" required>
+                <input type="number" name="MET" placeholder="Exercise MET" required>
+                <br>
+                <input type="submit" value="Add">
+                </fieldset>
+            </form>
+        <hr>
+        <h3>Delete User:</h3>
+            <form id="DeleteDB">
+                <input type="email" id="delemail" name="email" placeholder="User's Email" required>
+                <input type="submit" value="Delete">
+            </form>
+        <p id="resMessage"/>
+        <script src="./../Scripts/Admin.js"></script>
+    </body>
+</html>

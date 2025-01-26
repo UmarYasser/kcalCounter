@@ -6,7 +6,7 @@
     <title>LogIn Page</title>
 </head>
 <body>
-    <form action="https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1/auth/logIn" method="POST">
+    <form id="logIn" method="post">
         <fieldset>
             <legend>LogIn</legend>
             <div>
@@ -17,8 +17,16 @@
                 <label>Enter Password</label>
                 <input name="password" type="password" placeholder="password">
             </div>
-            <input type="submit" value="خش هتجيبك">
+            <input type="submit" value="Log In">
         </fieldset>
     </form>
+    <button id="forgotPassword">Forgot Password?</button>
+    <form id="ifForgetten" hidden>
+        <p>Enter your email to send a reset password link to it.</p>
+        <input type="email" name="email" id="emailFor" placeholder="Enter Email">
+        <input type="submit" value="Enter email">
+    </form>
+    <p id="resMessage"></p>
+    <script src="./../Scripts/LoggingIn.js"></script>
 </body>
 </html>

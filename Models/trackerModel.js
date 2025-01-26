@@ -191,11 +191,11 @@ trackerSchema.pre('save',function(next){
     if(this.isNew){
     // make the required macros & cals from diet
     // update diet model to make the macros have a percent and value according to 3 plans [weight loss,maintain,muscle building
-    this.required.calories = (this.diet.dailyIntake)
+    this.required.calories = Math.round(this.diet.dailyIntake)
 
-    this.required.carb = this.diet.carbIntake
-    this.required.protien = this.diet.protienIntake
-    this.required.fat = this.diet.fatIntake
+    this.required.carb = Math.round(this.diet.carbIntake)
+    this.required.protien = Math.round(this.diet.protienIntake)
+    this.required.fat = Math.round(this.diet.fatIntake)
 
     this.meals.Breakfast.minrange = (this.diet.dailyIntake/5).toFixed(0)
     this.meals.Breakfast.maxrange = (this.diet.dailyIntake/3.333).toFixed(0)
@@ -209,12 +209,11 @@ trackerSchema.pre('save',function(next){
     this.meals.Snacks.minrange = (this.diet.dailyIntake/19.93).toFixed(0)
     this.meals.Snacks.maxrange = (this.diet.dailyIntake/10).toFixed(0)
     } else if(this.isModified('exercise')){
-        this.required.calories += this.exercise[this.exercise.length-1].calories  
-        this.required.carb += this.exercise[this.exercise.length-1].carb  
-        this.required.fat += this.exercise[this.exercise.length-1].fat 
+        this.required.calories += Math.round(this.exercise[this.exercise.length-1].calories  )
+        this.required.carb += Math.round(this.exercise[this.exercise.length-1].carb)
+        this.required.fat += Math.round(this.exercise[this.exercise.length-1].fat) 
     }
-
-    next()
+   next()
 })
 
 

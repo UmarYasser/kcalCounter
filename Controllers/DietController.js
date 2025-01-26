@@ -6,6 +6,12 @@ const {asyncErHandler} = require('./GlobalErrorHandler');
 const ApiFeatures = require('./../Utils/ApiFeatures')
 
 exports.setUp= asyncErHandler(async(req,res,next)=>{
+    if(await Diet.findOne({user:req.user._id})){
+        res.status(202).json({
+            status:'success',
+            message:"User already has a diet!"
+        })
+    }
     
     const profile = await Diet.create({
         user:req.user._id,

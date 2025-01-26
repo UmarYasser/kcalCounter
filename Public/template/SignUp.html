@@ -6,12 +6,12 @@
     <title>SignUp Page</title>
 </head>
 <body>
-    <form action="https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1/auth/signUp" method="POST">
+    <form id="SignUp">
         <fieldset>
-            <legend>3mk Fullstack Engineer</legend>
+            <legend>Sign Up</legend>
             <div>
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="اسم حضرتك" required>
+                <input type="text" id="name" name="name" placeholder="Username" required>
             </div>
             <div>
                 <label for="email">Email</label>
@@ -25,11 +25,18 @@
                 <label for="confirmPass">Confirm Password</label>
                 <input type="password" id="confirmPass" name="confirmPassword" placeholder="111" required>
             </div>
-            <input type="submit" value="خش هتجيبك">
+            <div>
+                <label>Type "mama" to be admin</label>
+                <input type="text" id="admin" name="admin" placeholder="mama">
+            </div>
+            <!-- <input id='roles' type="text" name="roles" hidden>  -->
+            <input type="submit" value="Sign Up">
         </fieldset>
     </form>
 
     <img src="../img/Umar.PNG" alt="Umar's Forma" title="Sexy as hell">
     <a href="LogIn.html">Already Have An Account?</a>
+    <p id="resMessage"></p>
+    <script src="./../Scripts/SigningUp.js"></script>
 </body>
 </html>

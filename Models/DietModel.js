@@ -118,9 +118,10 @@ dietSchema.pre('save',function(next){
         this.protienIntake = this.dailyIntake*0.30 /4
         this.fatIntake = this.dailyIntake*0.20 /9
     }
-    this.carbIntake = this.carbIntake.toFixed(1)
-    this.protienIntake = this.protienIntake.toFixed(1)
-    this.fatIntake = this.fatIntake.toFixed(1)
+    this.dailyIntake = Math.round(this.dailyIntake)
+    this.carbIntake = Math.round(this.carbIntake)
+    this.protienIntake = Math.round(this.protienIntake)
+    this.fatIntake = Math.round(this.fatIntake)
     next()
 })
 

@@ -1,12 +1,14 @@
 const fs = require('fs')
-const Home = fs.readFileSync('./public/template/Home.html');
-const SignUp = fs.readFileSync('./public/template/SignUp.html');
-const LogIn = fs.readFileSync('./public/template/LogIn.html');
-const SetUp = fs.readFileSync('./public/template/SetUp.html')
-const Tracker = fs.readFileSync('./public/template/Tracker.html')
-const Admin = fs.readFileSync('./public/template/Admin.html')
-const notFound = fs.readFileSync('./public/template/404.html')
 const authCon = require('./../Controllers/authController')
+const Home = fs.readFileSync('./Public/template/Home.html');
+const SignUp = fs.readFileSync('./Public/template/SignUp.html');
+const LogIn = fs.readFileSync('./Public/template/LogIn.html');
+const SetUp = fs.readFileSync('./Public/template/SetUp.html')
+const Tracker = fs.readFileSync('./Public/template/Tracker.html')
+const Admin = fs.readFileSync('./Public/template/Admin.html')
+const notFound = fs.readFileSync('./Public/template/404.html')
+const forbidden = fs.readFileSync('./Public/template/403.html')
+const ResetPassword = fs.readFileSync('./Public/template/ResetPassword.html')
 
 const router = require('express').Router()
 
@@ -27,9 +29,16 @@ router.get('/Tracker(.html)?',(req,res)=>{
     res.setHeader('Content-Type','text/html')
     res.end(Tracker)
 })
-router.route('/Admin(.html)?').get(authCon.protect,authCon.strict('admin'),(req,res)=>{
+router.route('/Admin(.html)?').get(authCon.protect,(req,res)=>{
     res.setHeader('Content-Type','text/html')
-    res.end(Admin)
+    if(req.user.roles == 'admin')
+        res.end(Admin)
+    else 
+        res.end(forbidden)
+})
+router.route('/resetPassword').get(authCon.protect,(req,res)=>{
+    res.setHeader('Content-Type','text/html')
+    res.end(ResetPassword)
 })
     
 

@@ -20,7 +20,7 @@ app.use(sanitize)
 */
 app.use(express.json()) 
 app.use(helmet())
-app.use(express.static('./public'))
+app.use(express.static('./Public'))
 app.use(cp())
 app.use(express.urlencoded({ extended: true }));
 

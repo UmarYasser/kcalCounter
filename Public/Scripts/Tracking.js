@@ -17,6 +17,8 @@ let day = today.getDate()
 if(day.length == 1) {day = '0' + day}
 let storedDate
 const forDate = `${year}-${month}-${day}`
+
+//Page Loads
 document.addEventListener('DOMContentLoaded',async()=>{
     if(!date.value)
         date.value = forDate
@@ -25,7 +27,8 @@ document.addEventListener('DOMContentLoaded',async()=>{
     //date.value = forDate
     viewAction.click()
 })
-//https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/
+
+//Date View
 viewAction.addEventListener("click", async() =>{  
     let selectedDate  = date.value
 
@@ -34,7 +37,7 @@ viewAction.addEventListener("click", async() =>{
         return;
     }
     try{
-        const response = await fetch(`${url}/tracker/display/${selectedDate}`,{
+        const response = await fetch(`${url}/tracker/display/${selectedDate}T00:00:00.000+00:00`,{
             method:'GET'
         })
         if(!response.ok){
@@ -54,10 +57,10 @@ viewAction.addEventListener("click", async() =>{
                 <td>Fat</td>
             </tr>
             <tr>
-                <td>${tracker.required.calories}</td>
-                <td>${tracker.required.carb}</td>
-                <td>${tracker.required.protien}</td>
-                <td>${tracker.required.fat}</td>
+                <td>${Math.round(tracker.required.calories)}</td>
+                <td>${Math.round(tracker.required.carb)}</td>
+                <td>${Math.round(tracker.required.protien)}</td>
+                <td>${Math.round(tracker.required.fat)}</td>
             </tr>
             </h5>
 
@@ -82,7 +85,7 @@ viewAction.addEventListener("click", async() =>{
         `
     }
     catch(e){
-        VDMessage.textContent = `${e.message}`
+        VDMessage.textContent = `${e.message} ✗`
     }
         
         try{
@@ -113,7 +116,7 @@ viewAction.addEventListener("click", async() =>{
 
     
     }catch(e){
-        resMessage.textContent= `Error:${e.message}`
+        resMessage.textContent= `Error:${e.message} ✗`
     }
     
 })
@@ -124,7 +127,8 @@ document.getElementById("EatAPI").addEventListener("submit", async function(even
     try{
     const formEntires = new FormData(this)
     const eatData = Object.fromEntries(formEntires.entries())
-    eatData.date = `${date.value}T00:00:00.000Z`
+    
+    eatData.date = `${date.value}T00:00:00.000+00:00`
     const response = await fetch(`${url}/tracker/eat`,{
         method:"POST",
         body:JSON.stringify(eatData),
@@ -142,7 +146,7 @@ document.getElementById("EatAPI").addEventListener("submit", async function(even
     }
     sessionStorage.setItem('storedDate',date.value)
     console.log("sessionStorage.getItem('storedDate')",sessionStorage.getItem('storedDate'))
-    setTimeout(()=>{location.reload()},4500)
+    setTimeout(()=>{location.reload()},2000)
 
 })
 
@@ -152,7 +156,7 @@ document.getElementById("ExersiceAPI").addEventListener("submit",async function(
     try{
     const exerForm = new FormData(this)
     const exerBody = Object.fromEntries(exerForm.entries())
-    exerBody.date = `${date.value}T00:00:00.000Z`
+    exerBody.date = `${date.value}T00:00:00.000+00:00`
     exerBody.duration /=60
     const exerFetch = await fetch(`${url}/tracker/exercise`,{
         method:'POST',

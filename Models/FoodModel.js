@@ -31,6 +31,10 @@ const foodSchema = new mongoose.Schema({
     calorieDense:{
         type:Boolean,
         default:false
+    },
+    highSugar:{
+        type:Boolean,
+        default:false
     }
 })
 
@@ -41,6 +45,7 @@ foodSchema.pre('save',function(next){
     if(this.carb <=1){
         this.carb = this.carb*100 + '%'
     }
+    
     next();
 })
 const Food = mongoose.model('Food',foodSchema,'Food');
