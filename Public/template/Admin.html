@@ -6,18 +6,18 @@
     </head>
     <body>
         <h1>Welcome Admin, Or You Should be... </h1>
-        <img src="./../img/admin.PNG" width="100">
+        <img src="./../img/admin.PNG" width="100" style="display:flex;" title="باشا البلد">
         <h3>Add Food To Database:</h3>
             <form id="foodDB">
-                <p>*Marcos and Calories are  entered per <b>1 gm</b></p>
+                <p>*Macros and Calories are  entered per <b>1 gm</b></p>
                 <fieldset>
                     <legend>Food Requirments</legend>
                 <input type='text' id="foodName" name="name" placeholder="Name" required required>
-                <input type='text' id="cal" name="calories" placeholder="Calories" required>
-                <input type='text' id="carb" name="carb" placeholder="Carbs" required>
+                <input type='number' id="cal" name="calories" placeholder="Calories" required min="0">
+                <input type='number' id="carb" name="carb" placeholder="Carbs" required min="0">
                     
-                <input type='text' id="protien" name="protien" placeholder="Protien" required>
-                <input type='text' id="fat" name="fat" placeholder="Fat" required>
+                <input type='number' id="protien" name="protien" placeholder="Protien" required min="0">
+                <input type='number' id="fat" name="fat" placeholder="Fat" required min="0">
 
                 <br>
                 <input type="checkbox" id="processed" name="processed">
@@ -33,8 +33,9 @@
         <h3>Add Exercise to Database:</h3>
             <form id="ExerciseDB">
                 <fieldset>
+                    <legend>Exercise Requirments</legend>
                 <input type="text" name="name" placeholder="Exercise Name" required>
-                <input type="number" name="MET" placeholder="Exercise MET" required>
+                <input type="number" name="MET" placeholder="Exercise MET" required min="0">
                 <br>
                 <input type="submit" value="Add">
                 </fieldset>

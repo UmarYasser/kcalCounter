@@ -17,6 +17,7 @@ document.getElementById("SignUp").addEventListener("submit",async function(event
     })
         if(response.ok){
             resMessage.textContent = "Signing  Up Successfully ✔"
+            sessionStorage.setItem('storedItem','undefined')
             setTimeout(()=>{
               window.location.href= '/SetUp'
             },2000)

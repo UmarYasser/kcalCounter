@@ -8,7 +8,7 @@ const crypto = require('crypto')
 const Diet = require("./../Models/DietModel")
 
 const signToken = (id) =>{
-    return jwt.sign({id:id},process.env.SECRET_STR)
+    return jwt.sign({id:id},process.env.SECRET_STR,)
 }
 
 
@@ -181,7 +181,6 @@ exports.deleteUser = asyncErHandler(async(req,res,next)=>{
     const deleteUser = await User.findOne({ email:req.body.email,active:true});
 
     if(!deleteUser){
-        console.log(req.body.email)
         const err = "There's no such user with that email"
         return next(new CustomError(err,404))
     }

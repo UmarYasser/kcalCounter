@@ -16,7 +16,7 @@ exports.eat = asyncErHandler(async(req,res,next)=>{
             food = await Food.findOne({name:foodName});
 
             if(!food){
-            return next(new CustomError("There's no food with this ID",400));
+            return next(new CustomError("There's no food with this name \nPlease Select from the menu.",400));
         }
     }
     if(!req.body.grams){
@@ -51,30 +51,75 @@ exports.eat = asyncErHandler(async(req,res,next)=>{
         tracker.meals.Breakfast.protien += parseInt((food.protien * req.body.grams).toFixed(0))
         tracker.meals.Breakfast.fat += parseInt((food.fat * req.body.grams).toFixed(0))
 
-        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})        
+        let notFound =true
+        tracker.meals.Breakfast.foods.forEach(food =>{
+            if(food.foodName == req.body.foodName){
+                food.grams += req.body.grams*1
+                notFound=false
+                return
+            }
+        })
+        if(notFound)
+            tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})        
     }
-    if(req.body.meal === "Lunch"){
-        tracker.meals.Lunch.calories += (food.calories * req.body.grams).toFixed(0)
-        tracker.meals.Lunch.carb += (food.carb * req.body.grams).toFixed(0)
-        tracker.meals.Lunch.protien += (food.protien * req.body.grams).toFixed(0)
-        tracker.meals.Lunch.fat += (food.fat * req.body.grams).toFixed(0);
-        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams})
-        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
+    else if(req.body.meal === "Lunch"){
+        tracker.meals.Lunch.calories += parseInt(food.calories * req.body.grams)
+        tracker.meals.Lunch.carb += parseInt(food.carb * req.body.grams)
+        tracker.meals.Lunch.protien += parseInt(food.protien * req.body.grams)
+        tracker.meals.Lunch.fat += parseInt(food.fat * req.body.grams);
+        
+         let notFound =true
+        tracker.meals.Lunch.foods.forEach(food =>{
+            if(food.foodName == req.body.foodName){
+                food.grams += req.body.grams*1
+                notFound=false
+                return
+            }
+        })
+
+        
+        if(notFound)
+            tracker.meals.Lunch.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
     }
-    if(req.body.meal === "Dinner"){
-        tracker.meals.Dinner.calories += (food.calories * req.body.grams).toFixed(0)
-        tracker.meals.Dinner.carb += (food.carb * req.body.grams).toFixed(0)
-        tracker.meals.Dinner.protien += (food.protien * req.body.grams).toFixed(0)
-        tracker.meals.Dinner.fat += (food.fat * req.body.grams).toFixed(0);
-        tracker.meals.Breakfast.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
+    else if(req.body.meal === "Dinner"){
+        tracker.meals.Dinner.calories += parseInt(food.calories * req.body.grams)
+        tracker.meals.Dinner.carb += parseInt(food.carb * req.body.grams)
+        tracker.meals.Dinner.protien += parseInt(food.protien * req.body.grams)
+        tracker.meals.Dinner.fat += parseInt(food.fat * req.body.grams);
+
+         let notFound =true
+        tracker.meals.Dinner.foods.forEach(food =>{
+            if(food.foodName == req.body.foodName){
+                food.grams += req.body.grams*1
+                notFound=false
+                return
+            }
+        })
+
+        
+        if(notFound)
+            tracker.meals.Dinner.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
     }
-    if(req.body.meal === "Snacks"){
-        tracker.meals.Snacks.calories += (food.calories * req.body.grams).toFixed(0)
-        tracker.meals.Snacks.carb += (food.carb * req.body.grams).toFixed(0)
-        tracker.meals.Snacks.protien += (food.protien * req.body.grams).toFixed(0)
-        tracker.meals.Snacks.fat += (food.fat * req.body.grams).toFixed(0);
-        tracker.meals.Snacks.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
-    }    
+    else if(req.body.meal === "Snacks"){
+        tracker.meals.Snacks.calories += parseInt(food.calories * req.body.grams)
+        tracker.meals.Snacks.carb += parseInt(food.carb * req.body.grams)
+        tracker.meals.Snacks.protien += parseInt(food.protien * req.body.grams)
+        tracker.meals.Snacks.fat += parseInt(food.fat * req.body.grams);
+       
+        let notFound =true
+        tracker.meals.Snacks.foods.forEach(food =>{
+            if(food.foodName == req.body.foodName){
+                food.grams += req.body.grams*1
+                notFound=false
+                return
+            }
+        })
+
+        
+        if(notFound)
+            tracker.meals.Snacks.foods.push({food:food._id,grams:req.body.grams,foodName:food.name})
+    } 
+
     tracker.eaten.carb= Math.round(tracker.eaten.carb)
     tracker.eaten.protien= Math.round(tracker.eaten.protien)
     tracker.eaten.fat= Math.round(tracker.eaten.fat)
@@ -140,7 +185,7 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
 
 })
 
-
+//Has Protect Middleware Before it
 exports.display = asyncErHandler(async(req,res,next)=>{
     const user=  await User.findById(req.user._id)
     const date = req.params.date;

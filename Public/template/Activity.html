@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity Page</title>
+</head>
+<body>
+    <h1>How Would You contribute to your goals today?</h1>
+    <h3  id="Food Menu">
+        <fieldset>
+            <legend>Add Food</legend>
+        <form id="EatAPI">
+            <input list="foodSelect" name="foodName" placeholder="Select Food..." required>
+            <datalist id="foodSelect">
+                <option value="test">test</option>
+                <option value="test2">test2</option>
+            </datalist>
+            <input id="grams" type="number" name="grams" placeholder="Grams..." min="0" step="2" >
+            <input id="eat" type="submit" value="Eat">
+            <br>
+            <h5>
+            <input type ="radio" name="meal" value="Breakfast" required>
+            <label>Breakfast</label>
+            <input type ="radio" name="meal" value="Lunch" required>
+            <label>Lunch</label>
+            <input type ="radio" name="meal" value="Dinner" required>
+            <label>Dinner</label>
+            <input type ="radio" name="meal" value="Snacks" required>
+            <label>Snacks</label>
+            </h5>               
+        </form>
+        </fieldset>
+    </h3>
+    <script src="./../Scripts/Activity.js"></script>
+</body>
+</html>

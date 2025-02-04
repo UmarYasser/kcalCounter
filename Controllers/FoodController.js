@@ -29,12 +29,6 @@ exports.getAllFood = asyncErHandler(async(req,res,next)=>{
         return next(err)
     }
 
-    /** const features = new ApiFeatures(Movie.find(), req.query)
-                            .filter()
-                            .sort()
-                            .limitFields()
-                            .paginate();
-    let movies = await features.query; */
     res.status(200).json({
         status:'success',
         count:foods.length,

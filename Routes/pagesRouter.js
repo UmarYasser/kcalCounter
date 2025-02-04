@@ -5,6 +5,7 @@ const SignUp = fs.readFileSync('./Public/template/SignUp.html');
 const LogIn = fs.readFileSync('./Public/template/LogIn.html');
 const SetUp = fs.readFileSync('./Public/template/SetUp.html')
 const Tracker = fs.readFileSync('./Public/template/Tracker.html')
+const Activity = fs.readFileSync('./Public/template/Activity.html')
 const Admin = fs.readFileSync('./Public/template/Admin.html')
 const notFound = fs.readFileSync('./Public/template/404.html')
 const forbidden = fs.readFileSync('./Public/template/403.html')
@@ -12,10 +13,14 @@ const ResetPassword = fs.readFileSync('./Public/template/ResetPassword.html')
 
 const router = require('express').Router()
 
-router.get('/(SignUp(.html)?)?',(req,res)=>{
+
+router.get('/',(req,res)=>{
     res.setHeader('Content-Type','text/html');
-    res.end(SignUp);
-    
+    res.end(Home);   
+})
+router.get('/SignUp(.html)?',(req,res)=>{
+    res.setHeader('Content-Type','text/html');
+    res.end(SignUp);   
 })
 router.get('/LogIn(.html)?',(req,res)=>{
     res.setHeader('Content-Type','text/html');  
@@ -36,9 +41,13 @@ router.route('/Admin(.html)?').get(authCon.protect,(req,res)=>{
     else 
         res.end(forbidden)
 })
-router.route('/resetPassword').get(authCon.protect,(req,res)=>{
+router.route('/resetPassword(.html)?').get(authCon.protect,(req,res)=>{
     res.setHeader('Content-Type','text/html')
     res.end(ResetPassword)
+})
+router.route('/Activity(.html)?').get(authCon.protect,(req,res)=>{
+    res.setHeader('Content-Type','text/html')
+    res.end(Activity)
 })
     
 

@@ -2,6 +2,49 @@
 <html>
 <head>
     <title>Tracker Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        
+        ul{
+            list-style-type: none;
+            background-color: #d8c7ae80;
+            border:2px #d8c7ae5e solid;
+            z-index: 1;
+            padding:0;
+            margin:10px;
+            overflow: visible !important;
+        }
+        li{
+            position: relative; 
+            cursor: pointer; 
+        }
+        li:hover{
+            background-color: rgba(159, 208, 223, 0.87);
+        }
+
+        .nutCard{
+            background-color: rgb(226, 226, 226);
+            position:absolute;
+            top: 5px;            
+            width:auto;
+            border:2px solid #5a572d;
+            padding:2px;
+            right:-80px;
+            z-index: 2;
+            opacity:0;
+            visibility: hidden;
+        }
+        .nutCard li{
+            background-color: rgb(216, 202, 182);   
+        }
+        li:hover  .nutCard{
+            opacity: 1;
+            visibility: visible;
+            transition: opacity .5s ease-in-out ;
+        }
+       
+        
+    </style>
 </head>
 <body>
     <h3>Display Which Day:    
@@ -9,7 +52,50 @@
     <button id="viewTracker" >View</button>
     <p id="viewDateMessage"></p>
     </h3>
-    <div id="trackerData"></div>
+    <div>
+        
+    </div>
+    <div id="ReqEaten"></div>
+
+    <br>
+    <div id="Meals" style="display: flex;gap:20px;">
+        <div>
+            <div id="Breakfast"></div>
+                <button id="BFfoodsBtn" hidden>View Tracked Foods</button>
+                
+           
+            <ul id="BFfoods" hidden style="max-height: 100px;overflow-y:auto;padding-left:5px;">
+                <li>Nothing has been tracked yet!</li>
+            </ul>
+            
+        </div>
+        
+        <div>
+            <div id="Lunch"></div>
+            <button id="LChfoodsBtn" hidden>View Tracked Foods</button>
+            <ul id="LChfoods" hidden style="max-height: 100px;overflow-y:auto;padding-left:5px;">
+                <li>Nothing has been tracked yet!</li>
+            </ul>
+        </div>
+        <div>
+            <div id="Dinner"></div>
+            <button id="DNfoodsBtn" hidden >View Tracked Foods</button>
+            <ul id="DNfoods" hidden style="max-height: 100px;overflow-y:auto;padding-left:5px;">
+                <li>Nothing has been tracked yet!</li>
+            </ul>
+        </div>
+
+        <div>
+            <div id="Snacks"></div>
+            <button id="SCkfoodsBtn" hidden >View Tracked Foods</button>
+            <ul id="SCkfoods" hidden style="max-height: 100px;overflow-y:auto;padding-left:5px;">
+                <li>Nothing has been tracked yet!</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="display:flex;gap:20px;">
+
     <h3  id="Food Menu" hidden>
         <fieldset>
             <legend>Add Food</legend>
@@ -22,6 +108,7 @@
             <input id="grams" type="number" name="grams" placeholder="Grams..." min="0" step="2" >
             <input id="eat" type="submit" value="Eat">
             <br>
+            
             <h5>
             <input type ="radio" name="meal" value="Breakfast" required>
             <label>Breakfast</label>
@@ -36,20 +123,22 @@
         </fieldset>
     </h3>
 
-
-    <h3 id="Exercise Menu" hidden>Add Exersice:
+    <h3 id="Exercise Menu" hidden>
         <form id="ExersiceAPI">
+        <fieldset>
+            <legend>Add Exersice:</legend>
         <input list="exerciseSelect" name="exerciseName" placeholder='Select Exercise...' required>
         <datalist id="exerciseSelect">
             <option value="test">
         </datalist>
         <input type="number" id="time" name="duration" placeholder='Duration in mins...' step="2" required>
         <input type="submit" id="exercise" name="exercise" value="Exercise">
-
+        </fieldset>
         </form>
     </h3>
+    </div>
     <p id ="responseMessage"></p>
-    
+   
     <script src="../Scripts/Tracking.js"></script>
 </body>
 </html>

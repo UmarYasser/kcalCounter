@@ -83,17 +83,21 @@ const trackerSchema = new mongoose.Schema({
             }]
         },
         Lunch:{
-            calories:{type:Number,
+            calories:{
+            type:Number,
             default:0
             },
-            carb:{type:Number,
+            carb:{
+            type:Number,
             default:0
             },
-            protien:{type:Number,
-            default:0
+            protien:{
+                type:Number,
+                default:0
             },
-            fat:{type:Number,
-            default:0
+            fat:{
+                type:Number,
+                default:0
             },
             minrange:Number,
             maxrange:Number,
@@ -184,7 +188,6 @@ const trackerSchema = new mongoose.Schema({
             type:String
         }
     }]
-    
 })
 
 trackerSchema.pre('save',function(next){
@@ -197,22 +200,23 @@ trackerSchema.pre('save',function(next){
     this.required.protien = Math.round(this.diet.protienIntake)
     this.required.fat = Math.round(this.diet.fatIntake)
 
-    this.meals.Breakfast.minrange = (this.diet.dailyIntake/5).toFixed(0)
-    this.meals.Breakfast.maxrange = (this.diet.dailyIntake/3.333).toFixed(0)
-    
-    this.meals.Lunch.minrange = (this.diet.dailyIntake/3.333).toFixed(0)
-    this.meals.Lunch.maxrange = (this.diet.dailyIntake/2.5).toFixed(0)
-    
-    this.meals.Dinner.minrange = (this.diet.dailyIntake/3.333).toFixed(0)
-    this.meals.Dinner.maxrange = (this.diet.dailyIntake/2.5).toFixed(0)
-    
-    this.meals.Snacks.minrange = (this.diet.dailyIntake/19.93).toFixed(0)
-    this.meals.Snacks.maxrange = (this.diet.dailyIntake/10).toFixed(0)
     } else if(this.isModified('exercise')){
         this.required.calories += Math.round(this.exercise[this.exercise.length-1].calories  )
         this.required.carb += Math.round(this.exercise[this.exercise.length-1].carb)
         this.required.fat += Math.round(this.exercise[this.exercise.length-1].fat) 
     }
+    this.meals.Breakfast.minrange = (this.required.calories/5).toFixed(0)
+    this.meals.Breakfast.maxrange = (this.required.calories/3.333).toFixed(0)
+    
+    this.meals.Lunch.minrange = (this.required.calories/3.333).toFixed(0)
+    this.meals.Lunch.maxrange = (this.required.calories/2.5).toFixed(0)
+    
+    this.meals.Dinner.minrange = (this.required.calories/3.333).toFixed(0)
+    this.meals.Dinner.maxrange = (this.required.calories/2.5).toFixed(0)
+    
+    this.meals.Snacks.minrange = (this.required.calories/19.93).toFixed(0)
+    this.meals.Snacks.maxrange = (this.required.calories/10).toFixed(0)
+    
    next()
 })
 

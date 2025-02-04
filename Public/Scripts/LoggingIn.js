@@ -9,25 +9,27 @@ document.getElementById("logIn").addEventListener("submit",async function(event)
     const formData = Object.fromEntries(formEntires.entries())
     
     try{
-    const logFetch = await fetch(`${url}/auth/logIn`,{
-        method:'POST',
-        body:JSON.stringify(formData),
-        headers:{
-            'Content-Type':'application/json'
-        }
-    })
-    const logResult = await logFetch.json()
-  
-    if(logFetch.ok){
+        const logFetch = await fetch(`${url}/auth/logIn`,{
+            method:'POST',
+            body:JSON.stringify(formData),
+            headers:{
+                'Content-Type':'application/json'
+            }
+        })
+        const logResult = await logFetch.json()
+    
+        if(logFetch.ok){
 
-        if(logResult.haveDiet){ resMessage.textContent= "Directing to Tracker Page ✔"}
-    else {resMessage.textContent= "Directing to SetUp Page ✔"}
+            if(logResult.haveDiet){ resMessage.textContent= "Directing to Tracker Page ✔"}
+        else {resMessage.textContent= "Directing to SetUp Page ✔"}
 
-    console.log(logResult)
-    setTimeout(()=>{
-            if(logResult.haveDiet) {window.location.href = './Tracker'}
-            else {window.location.href = './SetUp'}
-    },2000)
+        console.log(logResult)
+        sessionStorage.setItem("storedDate","undefined")
+        setTimeout(()=>{
+                if(logResult.haveDiet) {window.location.href = './Tracker'}
+                else {window.location.href = './SetUp'}
+        },2000)
+        console.log("After setTimeout")
     }
     }catch(e){
         resMessage.textContent = `Error:${e.message} ✗`
