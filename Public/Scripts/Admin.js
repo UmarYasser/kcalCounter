@@ -7,7 +7,6 @@ document.getElementById("foodDB").addEventListener("submit",async function(event
     const formData = Object.fromEntries(formEnt.entries())
     if(formData.processed == 'on') {formData.processed = true}
     if(formData.highSugar == 'on') {formData.highSugar = true}
-    console.log(formData)
 
     try{
         const resFetch = await fetch(`${url}/food/addFood`,{
@@ -34,7 +33,6 @@ document.getElementById("ExerciseDB").addEventListener('submit',async function(e
     try{
         const formEnt = new FormData(this)
         const formData = Object.fromEntries(formEnt.entries())
-        console.log(formData)
 
         const resFetch = await fetch(`${url}/exercise/addExercise`,{
             method:'POST',
@@ -44,7 +42,7 @@ document.getElementById("ExerciseDB").addEventListener('submit',async function(e
             }
         })
         const resData = await resFetch.json()
-        console.log(resData)
+        
         if(resFetch.ok){
             resMessage.textContent = 'Exercise Added in Database ✔'
             setTimeout(()=>{ location.reload() },2000)

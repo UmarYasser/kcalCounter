@@ -117,7 +117,7 @@ exports.forgotPassword = asyncErHandler(async(req,res,next) =>{
     //1. Identify the user with the given email
     const user = await User.findOne({email:req.body.email});
     if(!user){
-        console.log(req.body.email)
+        
         const err = new CustomError('Email Not Found!',401);
         return next(err);
     }

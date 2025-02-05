@@ -110,15 +110,18 @@ viewAction.addEventListener("click", async() =>{
             </table>
            
         `
+
         document.getElementById("BFfoodsBtn").hidden = false
-        if(tracker.meals.Breakfast.foods){
-        document.getElementById('BFfoods').innerHTML=''
+
+        if(tracker.meals.Breakfast.foods.length != 0){
+            document.getElementById('BFfoods').innerHTML=''
         }
+
         tracker.meals.Breakfast.foods.forEach(li=>{
             let Li = document.createElement('li')
             Li = `${li.foodName}, ${li.grams}gm`
             
-            document.getElementById("BFfoods").innerHTML += `
+        document.getElementById("BFfoods").innerHTML += `
             <li>
                 ${Li}
                 <ul class = 'nutCard'>
@@ -300,6 +303,23 @@ viewAction.addEventListener("click", async() =>{
             exerciseSelect.appendChild(exerOp)
         })
 
+        if(tracker.exercise.length !=0)
+            document.getElementById("trackedExercise").innerHTML = ''
+        tracker.exercise.forEach(exer=>{
+            let Li = document.createElement('li')
+            Li = `${exer.name,exer.duration}`
+            document.getElementById("trackedExercise").innerHTML+=`
+                <li>${exer.name}, ${exer.duration}mins
+                    <ul class="nutCard">
+                        <li>${exer.name} for ${exer.duration}mins</li>
+                        <li>Added Calories: ${exer.calories}kcal</li>
+                        <li>Added Carbs: ${exer.carb}gm</li>
+                        <li>Added Fat: ${exer.fat}gm</li>
+                    </ul>
+                </li>
+            `
+        })
+        document.getElementById("trackedExerciseBtn").hidden = false
     
     }catch(e){
         resMessage.textContent= `Error:${e.message} ✗`
@@ -373,7 +393,7 @@ document.getElementById("ExersiceAPI").addEventListener("submit",async function(
         }
     }) 
     if(exerFetch.ok){
-        resMessage.textContent = `Exercise Tracker ✔` 
+        resMessage.textContent = `Exercise Tracked ✔` 
         sessionStorage.setItem("storedDate",date.value)
         setTimeout(()=>{location.reload()},1500)
     }
@@ -403,4 +423,9 @@ document.getElementById("DNfoodsBtn").addEventListener("click",(event)=>{
 document.getElementById("SCkfoodsBtn").addEventListener("click",(event)=>{
     event.preventDefault()
     document.getElementById("SCkfoods").hidden = document.getElementById("SCkfoods").hidden == true ? false : true
+})
+
+document.getElementById("trackedExerciseBtn").addEventListener("click",(event)=>{
+    event.preventDefault()
+    document.getElementById("trackedExercise").hidden = document.getElementById("trackedExercise").hidden == true ? false : true
 })

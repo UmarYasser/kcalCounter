@@ -186,6 +186,11 @@ const trackerSchema = new mongoose.Schema({
         },
         name:{
             type:String
+        },
+        duration:{
+            type:Number,
+            required:[true,"Duration is Required!"],
+            default:0
         }
     }]
 })
@@ -201,7 +206,7 @@ trackerSchema.pre('save',function(next){
     this.required.fat = Math.round(this.diet.fatIntake)
 
     } else if(this.isModified('exercise')){
-        this.required.calories += Math.round(this.exercise[this.exercise.length-1].calories  )
+        this.required.calories += Math.round(this.exercise[this.exercise.length-1].calories)
         this.required.carb += Math.round(this.exercise[this.exercise.length-1].carb)
         this.required.fat += Math.round(this.exercise[this.exercise.length-1].fat) 
     }

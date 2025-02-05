@@ -35,21 +35,6 @@ const prodError = (res,err) =>{
         })
     }
 }
-/*const prodErrors = (res, error) => {
-    if(error.isOperational){
-        res.status(error.statusCode).json({
-            status: error.statusCode,
-            message: error.message
-        });
-    }else {
-        res.status(500).json({
-            status: 'error',
-            message: 'Something went wrong! Please try again later.'
-        })
-    }
-}
- */
-
 
 const errorHandler = (err,req,res,next) =>{
     err.statusCode = err.statusCode || 500

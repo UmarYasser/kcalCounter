@@ -9,28 +9,30 @@ document.getElementById("logIn").addEventListener("submit",async function(event)
     const formData = Object.fromEntries(formEntires.entries())
     
     try{
-        const logFetch = await fetch(`${url}/auth/logIn`,{
-            method:'POST',
-            body:JSON.stringify(formData),
-            headers:{
-                'Content-Type':'application/json'
+            const logFetch = await fetch(`${url}/auth/logIn`,{
+                method:'POST',
+                body:JSON.stringify(formData),
+                headers:{
+                    'Content-Type':'application/json'
+                }
+            })
+            const logResult = await logFetch.json()
+        
+            if(logFetch.ok){
+
+                    if(logResult.haveDiet){ resMessage.textContent= "Directing to Tracker Page ✔"}
+                else {resMessage.textContent= "Directing to SetUp Page ✔"}
+
+                
+                sessionStorage.setItem("storedDate","undefined")
+                setTimeout(()=>{
+                        if(logResult.haveDiet) {window.location.href = './Tracker'}
+                        else {window.location.href = './SetUp'}
+                },2000)
             }
-        })
-        const logResult = await logFetch.json()
-    
-        if(logFetch.ok){
-
-            if(logResult.haveDiet){ resMessage.textContent= "Directing to Tracker Page ✔"}
-        else {resMessage.textContent= "Directing to SetUp Page ✔"}
-
-        console.log(logResult)
-        sessionStorage.setItem("storedDate","undefined")
-        setTimeout(()=>{
-                if(logResult.haveDiet) {window.location.href = './Tracker'}
-                else {window.location.href = './SetUp'}
-        },2000)
-        console.log("After setTimeout")
-    }
+            else{
+               resMessage.textContent = `Error: ${logResult.message} ✗`
+            }
     }catch(e){
         resMessage.textContent = `Error:${e.message} ✗`
     }
@@ -46,7 +48,6 @@ document.getElementById("ifForgetten").addEventListener("submit",async function(
     event.preventDefault()
     const formEnt = new FormData(this)
     const formData= Object.fromEntries(formEnt.entries())
-    console.log(formData)
     try{
     const resFetch = await fetch(`${url}/auth/forgotPassword`,{
         method:'PATCH',
@@ -56,7 +57,6 @@ document.getElementById("ifForgetten").addEventListener("submit",async function(
         body:JSON.stringify(formData)
     })
     const resData = await resFetch.json()
-    console.log(resData)
 
     if(resFetch.ok){
         resMessage.textContent = "Email Sent to reset password ✔"

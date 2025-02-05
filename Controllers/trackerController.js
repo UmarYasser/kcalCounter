@@ -153,11 +153,13 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
     }
     //2.Calculate the exercise calories
     const exercised = await Exercise.findOne({name:exerciseName})
+    if(!exercised)
+        return next(new CustomError("No Exercise with that name found, please select from our menu.",404))
     
     // Need Adjusting ***************
     const carbpercent = (tracker.required.carb*4) / (tracker.required.calories)
     const fatpercent = (tracker.required.fat*9) / (tracker.required.calories)
-    const burnedCal  = (exercised.MET * req.body.duration * tracker.diet.weight)
+    const burnedCal  = parseInt(exercised.MET * req.body.duration * tracker.diet.weight)
     const addedCarb = parseInt(((carbpercent * burnedCal) /4).toFixed(0))
     const addedFat = parseInt(((fatpercent * burnedCal) /9).toFixed(0))
     
@@ -168,7 +170,8 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
         exer:exercised._id,
         calories:(exercised.MET * req.body.duration * tracker.diet.weight),
         carb: addedCarb,
-        fat: addedFat
+        fat: addedFat,
+        duration:(req.body.duration*60)
     }
 
     tracker.exercise.push(exerciseObj)

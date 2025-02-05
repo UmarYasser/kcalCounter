@@ -1,7 +1,7 @@
 process.on('uncaughtException',(err)=>{
     console.log(err.name,':',err.message);
     console.log("Uncaught Exception, Self Destructing now...");
-    //console.log(err.stack)
+    console.log(err.stack)
     process.exit(1);
 })
 

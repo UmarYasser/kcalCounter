@@ -27,6 +27,5 @@ document.getElementById("EatAPI").addEventListener("submit", async function(even
         resMessage.textContent = `Error:${e.message} ✗`
     }
     sessionStorage.setItem('storedDate',date.value)
-    console.log("sessionStorage.getItem('storedDate')",sessionStorage.getItem('storedDate'))
     setTimeout(()=>{location.reload()},2000)
 })
