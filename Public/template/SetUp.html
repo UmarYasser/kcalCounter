@@ -1,53 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Set Up Diet</title>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setup Page</title>
+    <link rel="stylesheet" href="./../Stylesheets/SetUp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="./../img/favicon.png">
 </head>
 <body>
-    <form  id="myForm" action="https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1/users/setUpDiet" method="POST" >
-        <fieldset>
-            <legend>Enter Dietary Requirements</legend>
-            <div>
-                <label for="weight">Weight</label>
-                <input type="number" id="weight" value="70" name="weight">
-            </div>
-            <div>
-                <label for="height">Height</label>
-                <input type="number" id="height" value="170" name="height">
-            </div>
-            <div>
-                <label for="age">Age</label>
-                <input type="number" id="age"  value="18" name="age">
-            </div>
-            <div>
-                <label for="gender">gender:</label>
+    <div class="circle"></div>
+    <!-- <h3 id="title" style="color:#096B68;text-align: left;"><u> <i class="fa-solid fa-dumbbell fa-xl" style="color:#096B68"></i> Umar's Diet Tracker </u></h3> -->
+    <div class="container">
+        <div id="first">
+            <div id="resp" style="display: inline"></div>
+               <form id="myForm" action="https://97p7tnf4-3000.uks1.devtunnels.ms/users/setUpDiet" method="POST" >
+      <h2  style="color: #096B68;"><i class="fa-solid fa-star"></i><u>Enter Diet Metrics.</u></h2>
+      <div>
+        <!-- <label for="weight">Weight</label> -->
+         <i class="fa-solid fa-weight-scale fa-2xl" style="color:#096B68"></i>
+         <input type="number" id="weight" placeholder="Weight" name="weight" step="2" required>
+        </div>
+        <div>
+            <!-- <label for="height">Height</label> -->
+            <i class="fa-solid fa-ruler-vertical fa-2xl" style="color:#096B68"></i>
+            <input type="number" id="height" placeholder="Height" name="height" step="2" required>
+        </div>
+        <div>
+            <!-- <label for="age">Age</label> -->
+            <i class="fa-solid fa-baby fa-2xl" style="color:#096B68"></i>
+            <input type="number" id="age" placeholder="Age" name="age" required>
+      </div>
+      <div id="genderGoal">
 
-                <input  selected type="radio" id="gender" value="male" name="gender">
-                <label for="g1">male</label>
-                <input type="radio" id="g2" value="female" name="gender">
-                <label for="g2">female</label>
+        <div id="genderCon">
+              <h4 style="align-self: center;"><i class="fa-solid fa-venus-mars fa-2xl"></i> Gender:</h4>
+              
+              <div id="genderRadio">
+                <div>
+                    <label for="g1">Male</label>
+                    <input selected type="radio" id="gender" value="male" name="gender" required>
+                </div>
+                <div>
+                    <label for="g2">Female</label>
+                    <input type="radio" id="g2" value="female" name="gender" required>
+                </div>
             </div>
-            <div>
-                <label for="goal">Goal</label>
-                <select name="goal" id="goal">
+        </div>
+
+            <div id="goalCon">
+                <h4><i class="fa-solid fa-bullseye fa-2xl"></i> Goal:</h4>
+                <select name="goal" id="goal" required>
                     <option value="lose">Lose</option>
                     <option selected value="maintain">Maintain</option>
                     <option value="gain">Gain</option>
                 </select>
-            </div>
-            <div>
-                <label for="exer">Days Exercising</label>
-                0
-                <input type="range" min="0" max="7" name="daysWorkingOut" id="exer" value="0">
-                7
-            </div>
+    </div>
+      </div>
+    <div>
+        <h3 id="h4exer">
+            <i class="fa-solid fa-dumbbell fa-xl" style="color:#90D1CA"></i>
+            <i class="fa-solid fa-calendar-week fa-xl" style="color:#90D1CA"></i>
+             Days Exercising Per Week: <span id="daysActive">0</span> </h3>
+        <input type="range" min="0" max="7" name="daysWorkingOut" id="exer" value="0">
+     </div>
+      
+      <button type="submit" >Set Up</button>
+  </form>
             
-            <input type="submit" value="Set Up">
-        </fieldset>
-    </form>
-    <script src="../Scripts/SettingUp.js"></script> 
-    <p id="responseMessage"></p>
-    
+        </div> <!-- First-->
+        <!-- <div id="second">
+            <h2>Glad to see You!</h2>
+            <p>Welcome back, healthy individual.
+
+                <i class="fa-solid fa-dumbbell fa-xl"></i>
+                <i class="fa-solid fa-bowl-food fa-xl"></i>
+            </p>
+        </div> -->
+    </div> <!-- Container -->
+    <p id="resMessage" style="color:#096B68;display: block;"> <i class="fa-solid fa-star fa-xl"></i></p>
+    <script src="./../Scripts/SettingUp.js"></script>
 </body>
 </html>

@@ -16,17 +16,22 @@ exports.eat = asyncErHandler(async(req,res,next)=>{
             food = await Food.findOne({name:foodName});
 
             if(!food){
-            return next(new CustomError("There's no food with this name \nPlease Select from the menu.",400));
+                let errMsg = "Please select a from form our database."
+                console.log("No Food with that name found")
+                res.status(404).json({
+                    status:'fail',
+                    message:errMsg
+                })
+            // return next(new CustomError(errMsg,400));
         }
     }
-    if(!req.body.grams){
+    if(!req.body.grams){ // Taken care of with the html input validation
         return next(new CustomError("Enter the specified number of grams!",400))
     }
     const date = req.body.date;
 
     let tracker = await Tracker.findOne({user:user._id,date:date}).populate('diet')
     if(!tracker){
-        console.log("Tracker Not found, Creating...")
         const diet = await Diet.findOne({user:user._id});
         if(!diet){
             console.log("Can't found Diet for that user")
@@ -141,7 +146,7 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
     let tracker = await Tracker.findOne({user:user._id,date:date}).populate('diet')
 
     if(!tracker){
-        console.log("Tracker Not found, Creating...")
+      
         const diet = await Diet.findOne({user:user._id});
         if(!diet){
             console.log("Can't found Diet for that user")
@@ -156,7 +161,7 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
     if(!exercised)
         return next(new CustomError("No Exercise with that name found, please select from our menu.",404))
     
-    // Need Adjusting ***************
+    
     const carbpercent = (tracker.required.carb*4) / (tracker.required.calories)
     const fatpercent = (tracker.required.fat*9) / (tracker.required.calories)
     const burnedCal  = parseInt(exercised.MET * req.body.duration * tracker.diet.weight)
@@ -168,7 +173,7 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
     const exerciseObj = {
         name:exercised.name,
         exer:exercised._id,
-        calories:(exercised.MET * req.body.duration * tracker.diet.weight),
+        calories:(burnedCal),
         carb: addedCarb,
         fat: addedFat,
         duration:(req.body.duration*60)
@@ -177,11 +182,11 @@ exports.exercise = asyncErHandler(async(req,res,next)=>{
     tracker.exercise.push(exerciseObj)
     
     await tracker.save({new:true,runValidators:false})
- 
+    
     res.status(200).json({
         status:"success",
         data:{
-            added:tracker.exercise,
+            added:tracker.exercise[tracker.exercise.length-1],
             required:tracker.required
         }
     })
@@ -194,14 +199,20 @@ exports.display = asyncErHandler(async(req,res,next)=>{
     const date = req.params.date;
   
 
-    let tracker = await Tracker.findOne({user:user._id,date:date}).populate('diet')
+    let tracker = await Tracker.findOne({user:user._id,date:date}).populate([
+        'diet',
+        'meals.Breakfast.foods.food',
+        'meals.Lunch.foods.food',
+        'meals.Dinner.foods.food',
+        'meals.Snacks.foods.food'
+    ])
     if(!await Tracker.findOne({user:user._id}))
         console.log("TheProblem is in the user")
     if(!await Tracker.findOne({date:date}))
         console.log("TheProblem is in the date")
 
     if(!tracker){
-        console.log("Tracker Not found, Creating...")
+       
         const diet = await Diet.findOne({user:user._id});
 
         if(!diet){
@@ -212,11 +223,6 @@ exports.display = asyncErHandler(async(req,res,next)=>{
         await tracker.populate('diet')
     }
 
-    
-    if(tracker.eaten.calories === 0){
-        console.log("This date is empty, No food recorded today")
-    }
-
     res.status(200).json({
         status:'success',
         data:{
@@ -225,3 +231,39 @@ exports.display = asyncErHandler(async(req,res,next)=>{
     })
 
 })
+    
+exports.updateWater = asyncErHandler(async(req,res,next)=>{
+    let tracker = await Tracker.findOne({user:req.user._id,date:req.body.date})
+    if(!tracker){
+        return next(new CustomError("No tracker found for that user and date",404))
+    }
+
+    // tracker.eaten.water = parseInt(req.body.water)
+    tracker.eaten.water = parseInt(req.body.water) || 0; // Default to 0 if not provided
+    await tracker.save({new:true,runValidators:false})
+
+    res.status(200).json({
+        status:'success',
+        data:{
+            tracker
+        }
+    })
+})
+
+// 
+/*
+trackerSchema{
+    meals{
+    Breakfast{
+        foods:[{
+           "_id":false,
+            food:{
+                type: mongoose.Schema.Types.ObjectId,
+                ref:"Food"
+             },
+             grams:Number,
+            foodName:String
+       }
+    }
+}
+*/

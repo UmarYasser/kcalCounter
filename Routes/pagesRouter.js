@@ -10,13 +10,15 @@ const Admin = fs.readFileSync('./Public/template/Admin.html')
 const notFound = fs.readFileSync('./Public/template/404.html')
 const forbidden = fs.readFileSync('./Public/template/403.html')
 const ResetPassword = fs.readFileSync('./Public/template/ResetPassword.html')
+const Me = fs.readFileSync('./Public/template/Me.html')
 
 const router = require('express').Router()
 
 
 router.get('/',(req,res)=>{
     res.setHeader('Content-Type','text/html');
-    res.end(Home);   
+    
+    res.end(LogIn);   
 })
 router.get('/SignUp(.html)?',(req,res)=>{
     res.setHeader('Content-Type','text/html');
@@ -31,6 +33,8 @@ router.get('/SetUp(.html)?',(req,res)=>{
     res.end(SetUp)
 })
 router.get('/Tracker(.html)?',(req,res)=>{
+    if(req.cookies.jwt == 'loggedout')
+        res.end(LogIn)
     res.setHeader('Content-Type','text/html')
     res.end(Tracker)
 })
@@ -41,6 +45,7 @@ router.route('/Admin(.html)?').get(authCon.protect,(req,res)=>{
     else 
         res.end(forbidden)
 })
+
 router.route('/resetPassword(.html)?').get(authCon.protect,(req,res)=>{
     res.setHeader('Content-Type','text/html')
     res.end(ResetPassword)
@@ -48,6 +53,12 @@ router.route('/resetPassword(.html)?').get(authCon.protect,(req,res)=>{
 router.route('/Activity(.html)?').get(authCon.protect,(req,res)=>{
     res.setHeader('Content-Type','text/html')
     res.end(Activity)
+})
+router.route('/Me(.html)?').get(authCon.protect,(req,res)=>{
+    if(req.cookies.jwt == 'loggedout')
+        res.end(LogIn)
+    res.setHeader('Content-Type','text/html')
+    res.end(Me)
 })
     
 

@@ -35,7 +35,12 @@ const foodSchema = new mongoose.Schema({
     highSugar:{
         type:Boolean,
         default:false
+    },
+    highProtien:{
+        type:Boolean,
+        default:false
     }
+    
 })
 
 foodSchema.pre('save',function(next){

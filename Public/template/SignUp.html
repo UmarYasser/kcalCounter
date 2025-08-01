@@ -4,39 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SignUp Page</title>
+    <link rel="stylesheet" href="./../Stylesheets/SignUp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="./../img/favicon.png">
 </head>
 <body>
-    <form id="SignUp">
-        <fieldset>
-            <legend>Sign Up</legend>
-            <div>
-                <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Username" required>
-            </div>
-            <div>
-                <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="amoory123@example.com" required>
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="111" required>
-            </div>
-            <div>
-                <label for="confirmPass">Confirm Password</label>
-                <input type="password" id="confirmPass" name="confirmPassword" placeholder="111" required>
-            </div>
-            <div>
-                <label>Type "mama" to be admin</label>
-                <input type="text" id="admin" name="admin" placeholder="mama">
-            </div>
-            <!-- <input id='roles' type="text" name="roles" hidden>  -->
-            <input type="submit" value="Sign Up">
-        </fieldset>
+    <div class="circle"></div>
+    <!-- <h3 id="title"><u> <i class="fa-solid fa-dumbbell fa-xl"></i> Umar's Diet Tracker </u></h3> -->
+    <div class="container">
+        <div id="first">
+            <div id="resp" style="display: inline;position: absolute;"></div>
+            <form id="SignUp" method="post">
+                <h2 style="color:#096B68;padding:3px;" class="typeWriter">
+                    <i class="fa-solid fa-star"></i>
+                    Hello, Friend.
+                </h2>
+                
+                <!-- <div class="li"> -->
+    <div>
+        <i class="fa-solid fa-signature fa-xl" style="color:#096B68"></i>
+        <input type="text" id="name" name="name" placeholder="Username" required>
+    </div>
+        
+    <!-- </div> -->
+    <div >
+        <i class="fa-solid fa-envelope fa-xl" style="color:#096B68"></i>    
+        <input type="email" id="email" name="email" placeholder="Email" required>
+    </div>
+    <div class="inp">
+        <i class="fa-solid fa-unlock-keyhole fa-xl" style="color:#096B68"></i>
+        <input type="password" id="password" name="password" placeholder="Password" required>
+        <a id="showPassword" href="#"><i class="fa-solid fa-eye fa-xl"></i> </a>
+    </div>
+    
+    <div class="inp">
+        <i class="fa-solid fa-unlock-keyhole fa-xl" style="color:#096B68"></i>
+        <input type="password" id="confirmPass" name="confirmPassword" placeholder="Confirm Password" required> 
+        <a id="showConPassword" href="#"><i class="fa-solid fa-eye fa-xl"></i> </a>
+    </div>
+    <div >
+        <!-- <label>Type "mama" to be admin</label> -->
+        <i class="fa-solid fa-user-tie fa-xl" style="color:#096B68"></i>
+        <input type="text" id="admin" name="admin" placeholder="Admin Passkey">
+    </div>
+ 
+ <!-- <input id='roles' type="text" name="roles" hidden>  -->
+        <button type="submit">Sign Up</button>
+        <a id="haveAccount" href="LogIn.html"><i class="fa-solid fa-user" style="color: #096B68;"></i> Already Have An Account?</a>
     </form>
-
-    <img src="../img/Umar.PNG" alt="Umar's Forma" title="Sexy as hell">
-    <a href="LogIn.html">Already Have An Account?</a>
-    <p id="resMessage"></p>
+            
+        </div>
+        <div id="second">
+            <h2>Glad to see You!</h2>
+            <p>Start your journey, healthy individual.
+                <i class="fa-solid fa-dumbbell fa-xl"></i>
+                <i class="fa-solid fa-bowl-food fa-xl"></i>
+            </p>
+        </div>
+    </div>
+    <p id="resMessage" style="color:#096B68;"> <i class="fa-solid fa-star fa-xl"></i> </p>
     <script src="./../Scripts/SigningUp.js"></script>
 </body>
 </html>

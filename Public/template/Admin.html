@@ -3,50 +3,92 @@
     <head>
         <meta charset="UTF-8">
         <title>Admin Page</title>
+        <link rel="stylesheet" href="./../Stylesheets/Admin.css">
+        <link rel="icon" type="image/x-icon" href="./../img/favicon.png">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     </head>
     <body>
-        <h1>Welcome Admin, Or You Should be... </h1>
-        <img src="./../img/admin.PNG" width="100" style="display:flex;" title="باشا البلد">
-        <h3>Add Food To Database:</h3>
-            <form id="foodDB">
-                <p>*Macros and Calories are  entered per <b>1 gm</b></p>
-                <fieldset>
-                    <legend>Food Requirments</legend>
-                <input type='text' id="foodName" name="name" placeholder="Name" required required>
-                <input type='number' id="cal" name="calories" placeholder="Calories" required min="0">
-                <input type='number' id="carb" name="carb" placeholder="Carbs" required min="0">
+        <div id="header">
+            <h2>
+            <i class="fa-solid fa-user-tie fa-xl" style="color:#096B68"></i>
+                 Admins Only
+                <i class="fa-solid fa-user-tie fa-xl" style="color:#096B68"></i>
+            </h2>
+        </div>
+        <div class="circle"></div>
+        <h1 class="typeWriter" style="text-align: center;">Welcome Admin, Or You Should be...
+            <!-- <img src="./../img/admin.PNG" width="100" style="display:inline-flex;" title="باشا البلد"> -->
+        </h1>
+        <p id="resMessage"> <i class="fa-solid fa-star fa-xl"></i> </p>
+        <form id="foodDB">
+                <h3 style="margin: 2px;">  <i class="fa-solid fa-bowl-food fa-xl"></i> Add Food To Database  <i class="fa-solid fa-database fa-xl"></i></h3>
+                <p><u> *Macros and Calories are  entered per <b>1 gm</b> </u></p>
+                
+                <legend style="text-align: center;">Food Requirments</legend>
+                <div class="foodDBContent">
+
+                    <input type='text' id="foodName" name="name" placeholder="Name" required required>
+                    <input type='number' id="cal" name="calories" placeholder="Calories" required min="0" step="any">
+                    <input type='number' id="carb" name="carb" placeholder="Carbs" required min="0" step="any">
                     
-                <input type='number' id="protien" name="protien" placeholder="Protien" required min="0">
-                <input type='number' id="fat" name="fat" placeholder="Fat" required min="0">
-
-                <br>
-                <input type="checkbox" id="processed" name="processed">
-                <label>Processed?</label>
-
-                <input type="checkbox" id="sugar" name="highSugar">
-                <label>High In Sugar?</label>
-                <br>
-                <input type="submit" value="Add">
-                </fieldset>
+                    <input type='number' id="protien" name="protien" placeholder="Protien" required min="0" step="any">
+                    <input type='number' id="fat" name="fat" placeholder="Fat" required min="0" step="any">
+                </div>
+                
+                <div class="foodDBContent">
+                    <div class="checkBox">
+                        <input type="checkbox" id="processed" name="processed">
+                        <label>Processed?</label>
+                    </div>
+                    
+                    <div class="checkBox">
+                        <input type="checkbox" id="sugar" name="highSugar">
+                        <label>High In Sugar?</label>
+                    </div>
+                    
+                    <div class="checkBox">
+                        <input type="checkbox" id="highProtien" name="highProtien">
+                        <label>High In Protien?</label>
+                    </div>
+                    
+                    
+                    <input type="submit" value="Add">
+                </div>
+                
             </form>
             <hr>
-        <h3>Add Exercise to Database:</h3>
             <form id="ExerciseDB">
-                <fieldset>
+                <h3>
+                    <i class="fa-solid fa-dumbbell fa-xl"></i>
+                    Add Exercise to Database
+                    <i class="fa-solid fa-database fa-xl"></i>
+                </h3>
+                
                     <legend>Exercise Requirments</legend>
                 <input type="text" name="name" placeholder="Exercise Name" required>
-                <input type="number" name="MET" placeholder="Exercise MET" required min="0">
+                <input type="number" name="MET" placeholder="Exercise MET" required min="0" step="any">
                 <br>
                 <input type="submit" value="Add">
-                </fieldset>
+                
             </form>
         <hr>
-        <h3>Delete User:</h3>
-            <form id="DeleteDB">
+
+        <form id="DeleteDB">
+                <h3>
+                    <i class="fa-solid fa-user-slash fa-xl"></i>
+                    Delete User
+                    <i class="fa-solid fa-database fa-xl"></i>
+                </h3>
                 <input type="email" id="delemail" name="email" placeholder="User's Email" required>
+                
+                <div style="display: flex;justify-content: center;">
+                    Reason? <textarea id="reason" name="reason"></textarea>
+
+                </div>
                 <input type="submit" value="Delete">
             </form>
-        <p id="resMessage"/>
+        
         <script src="./../Scripts/Admin.js"></script>
     </body>
 </html>

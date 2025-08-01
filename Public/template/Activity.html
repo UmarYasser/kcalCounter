@@ -3,35 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./../Stylesheets/Activity.css">
+
     <title>Activity Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="./../img/favicon.png">
 </head>
 <body>
-    <h1>How Would You contribute to your goals today?</h1>
-    <h3  id="Food Menu">
-        <fieldset>
-            <legend>Add Food</legend>
-        <form id="EatAPI">
-            <input list="foodSelect" name="foodName" placeholder="Select Food..." required>
-            <datalist id="foodSelect">
-                <option value="test">test</option>
-                <option value="test2">test2</option>
-            </datalist>
-            <input id="grams" type="number" name="grams" placeholder="Grams..." min="0" step="2" >
-            <input id="eat" type="submit" value="Eat">
-            <br>
-            <h5>
-            <input type ="radio" name="meal" value="Breakfast" required>
-            <label>Breakfast</label>
-            <input type ="radio" name="meal" value="Lunch" required>
-            <label>Lunch</label>
-            <input type ="radio" name="meal" value="Dinner" required>
-            <label>Dinner</label>
-            <input type ="radio" name="meal" value="Snacks" required>
-            <label>Snacks</label>
-            </h5>               
-        </form>
-        </fieldset>
-    </h3>
+    <ul id="header">
+        <li>
+            <i class="fa-solid fa-user" style="color:#096B68"></i>
+
+            <a href="./Me" >Me</a>
+        </li>
+        <li >
+            <i class="fa-solid fa-calendar-days" style="color:#096B68"></i>
+            <a href="./Tracker.html" >
+                Tracker
+            </a>
+        </li>
+        <li class="active">
+            <i class="fa-solid fa-dumbbell" style="color:#096B68"></i>
+            <a href="#">Activity</a>
+            <i class="fa-solid fa-utensils" style="color:#096B68"></i>
+        </li>
+        
+        <li id="logout">
+            <i class="fa-solid fa-right-from-bracket" style="color:#096B68"></i>
+            <a id="loggedOut" href="#">Logout</a>
+        </li>
+    </ul>
+    
+    <div class="circle"></div>
+    <div id="hWrapper">
+        <h1 style="margin:5px;color:#096B68" class="typeWriter">How Would You contribute to your goals today?</h1>
+    </div>
+    <p id="responseMessage" ><i class="fa-solid fa-star fa-xl"></i></p>
+    
+    <!-- <div id="loadercon" >    
+        <div class="loader" >
+            <div class="firPulse"></div>
+            <div class="secPulse"></div>
+        </div>
+    </div> -->
+    
+    <!-- <h2>What</h2> -->
+        <div id="Container">
+            <div id="foodMenuCard">
+                <div  class="Food-Menu loading" >
+                    <!-- <fieldset> -->
+                    <legend>
+                        <h3 style="text-align: center;margin:2px;">
+                            <i class="fa-solid fa-bowl-food fa-xl"></i>
+                            Add Food
+                            <i class="fa-solid fa-bowl-food fa-xl"></i>
+                        </h3>
+                    </legend>
+                        <form id="EatAPI">
+                            <input id="foodSearch" type="text" name="foodName" placeholder="Search Food"  required>
+                            <div id="liveSearchFood" class="hide"></div>
+                            
+                            <input id="grams" type="number" name="grams" placeholder="Grams" min="0" step="2" >
+                            <input id="eat" type="submit" value="Eat">
+                            <br>
+                    
+                    <h5 style="text-align: center;">
+                        <input type ="radio" name="meal" value="Breakfast" required>
+                        <label>Breakfast</label>
+                        <input type ="radio" name="meal" value="Lunch" required>
+                        <label>Lunch</label>
+                        <input type ="radio" name="meal" value="Dinner" required>
+                        <label>Dinner</label>
+                        <input type ="radio" name="meal" value="Snacks" required>
+                        <label>Snacks</label>
+                    </h5>     
+
+                </form>
+                <!-- <div id="nutCard"></div> -->
+            <!-- </fieldset> -->
+                </div>
+                <div id="nutCardContainer">    
+                <div id="nutCard" style="background-color: #096B68;" >
+                <u>  <p><span id="foodName" style="font-size: 1.3em;">Search Food</p></span></u> <span id="foodGrams"></span> 
+                <p>Calories:</p> <span id="foodCalories">...kcal</span> 
+                <p>Carbs: </p><span id="foodCarbs">...gm</span> 
+                <p>Protein: </p><span id="foodProtein">...gm</span>    
+                <p>Fat: </p><span id="foodFat">...gm</span> 
+                </div>
+                <div id="properties">
+                    <div id="positives"></div>
+                    <div id="line"></div>
+                    <div id="negatives"></div>
+                </div>
+                </div>
+            </div>
+            <div id="exerMenuCard">
+                <h3 class="Exercise-Menu loading" style="text-align: center;" >
+                    <form id="ExersiceAPI">
+                        <!-- <fieldset> -->
+                            <legend>
+                                <i class="fa-solid fa-dumbbell fa-xl"></i>
+                                Add Exersice
+                                <i class="fa-solid fa-dumbbell fa-xl"></i>
+                            </legend>
+                            <input name="exerciseName" id="exerciseSearch" type="text" placeholder='Search Exercise'  required>
+                        <div id="liveSearchExercise" class="hide"></div>
+                        <input type="number" id="duration" name="duration" placeholder='Duration in mins' step="2" required>
+                        <input type="submit" id="exercise" name="exercise" value="Exercise">
+                        </fieldset>
+                    </form>
+                </h3>
+                <div id="exerWaterContainer">
+
+                    <div id="exeCardContainer">
+                        <div id="exerciseCard" style="background-color: #096B68;">
+                            <u><p><span id="exerciseName" style="font-size: 1.3em;">Search Exercise</span></p></u> <span id="exeDuration"></span>
+                            <p>Calories Burned:</p> <span id="burnedCals">...kcal</span>
+                        </div>
+                    </div>
+                    <div id="waterTracker">
+
+                        <div id="waterLoader"></div>
+                        <div id="glassesContainer" class="hide">
+                            <i id="emptyOne" class="fa-solid fa-glass-water-droplet water hide"></i>
+                        </div>
+                    </div>
+                    <div id="waterInfo">
+                        <h4 id="waterTarget" >Target: <span id="targetValue">..</span>L</h4>
+                        <h4 id="waterDrunk" >Drunk: <span id="waterValue">..</span>L</h4>
+                    </div>
+                </div>
+         </div>
+        </div>
+
+    
+
     <script src="./../Scripts/Activity.js"></script>
 </body>
 </html>

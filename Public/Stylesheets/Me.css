@@ -1,0 +1,275 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root{
+    --blue1:rgba(0, 255, 255, 0.847);
+    --blue2: rgba(127, 255, 212, 0.77);
+    --blue3: #2196F3;
+    /* --pal1:#FFFBDE; */
+    --pal1:#ffea7f;
+    --pal2:#90D1CA;
+    --pal3:#129990;
+    --pal4:#096B68;
+}
+
+*{
+    font-family:"Poppins", sans-serif;
+}
+
+body{
+    height:100vh;
+    display: flex;
+    flex-flow:column nowrap;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin:0;
+}                
+
+.container{
+    display: flex;
+    gap:0px;
+    box-shadow: 0px 0px 10px 4px var(--pal2);
+    border: 1px solid black;
+    border-radius: 20px;
+    width:70%;
+    padding:0px;
+    overflow: hidden;
+    height: 90%;
+    transition: all 0.5s ease;
+    animation: hop 0.5s forwards ;
+}
+
+@keyframes hop {
+    0%{
+        opacity: 0;
+        transform: translateY(-10px) scale(1.2);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+a{
+    text-decoration: none;
+    color:var(--pal4);
+    font-weight:600;
+    padding:10px;     
+}
+
+.active{
+    background-color: rgba(255, 255, 255, 0.807);;
+}
+
+ul#header{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    background-color: #d8c7ae80;
+    background-color: var(--pal1);
+    color:var(--pal4);
+    position:sticky;
+    align-items:center;
+    padding: 0px 20px;
+    font-size:20px;
+    width:100%;
+    height:60px;
+    margin:0;
+}
+
+#header li{
+    height:100%;
+    transition: all 0.5s ease;
+    display:flex;
+    align-items:center;
+}
+
+#header li:hover{
+    background-color: white;
+    border-radius:20%;
+}
+
+#first{
+    padding:10px;
+    width: 100%;
+    height:100%;
+    display: flex;
+    /* gap:20px; */
+    flex-flow: column wrap;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    /* overflow: scroll; */
+    /* background-color: black; */
+}
+
+#second{
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding:20px;
+    width: 40%;
+    
+    background-image: linear-gradient(to top,var(--pal3),var(--pal2));
+    color: white;
+}
+
+#second p{
+    font-size: 1em;
+}
+
+#first h2{
+    padding:0px;
+    margin:0px;
+}
+
+form{
+    background-color:transparent;
+    display: flex;
+    flex-flow: column nowrap;
+    gap:30px;
+    width:90%;
+    justify-content: space-evenly;
+    height:100%;
+    /* align-items: space-evenly; */
+}
+
+#genderCon{
+    display: flex;
+    flex-flow: column nowrap;
+    
+    align-self: center;
+    width:50%;
+}
+h4{
+    padding:0px;
+    margin:0px;
+    color:var(--pal4);
+}
+
+#genderRadio{
+    display:flex;
+    justify-content:center;
+}
+
+#genderGoal{
+    display:flex;
+    /* background-color:red; */
+    justify-content:space-evenly;
+}
+
+
+#goalCon{
+    display:flex;
+    flex-flow: column nowrap;
+    /* background-color:grey; */
+    width:50%;
+}
+
+input{
+    border-radius: 30px;
+    background-color: transparent;
+    box-shadow: 0px 0px 5px 4px var(--pal2);
+    padding:8px;
+    width:80%;
+    height:25px;
+    margin-left:5px;
+}
+
+input::placeholder{
+    /* text-align: center; */
+    font-size:1.3em;
+    color:var(--pal4);
+    /* font-family: monospace; */
+    
+}
+
+input:hover,button:hover{
+    cursor: pointer;
+}
+
+
+button{
+    background-image: linear-gradient(45deg,var(--pal3) ,var(--pal2));
+    /* background-color: var(--pal1); */
+    border-radius: 30px;
+    width:80%;
+    color:white;
+    height:40px;
+    align-self:center;
+    font-size: 1rem;
+    margin-bottom:25px;
+}
+ 
+#h4exer{
+    color:var(--pal2);
+}
+
+select{
+    background-color:var(--pal1);
+    text-align:center;
+    border-radius:20px;
+    margin-top:5px;
+}
+
+/* Make it on the top for smaller displays (Responsive) */
+.circle{
+    position:absolute;
+    width:800px;
+    height:800px;
+    border-radius:50%;
+    inset: -450px  auto auto -250px ;
+    background-color:var(--pal1);
+    z-index:-1;
+    opacity:1;
+}
+
+#resp{
+    position: absolute;
+    height:30%;
+    background-image: linear-gradient(to top, var(--pal2),var(--pal3));
+    bottom:0px;
+    width:100%;
+    z-index:-1;
+    position: fixed;
+}
+
+/* Discord resonpnds at resolution 830px */
+@media (max-width:780px){
+    .container{
+        /* overflow: scroll; */
+    }
+
+    .circle{
+        inset: -500px auto auto auto;
+    }
+    #second{
+        display: none;
+    }
+    #first{
+        width:100%;
+        position: relative;
+    }
+    h2{
+        /* font-size:0.8rem; */
+    }
+    input{
+        height:20px
+    }
+    #resp{
+        /* position: absolute; */
+        height:35%;
+        background-image: linear-gradient(to top, var(--pal2),var(--pal3));
+        bottom:0px;
+        width:100%;
+        z-index:-1;
+        position: fixed;
+    }
+}
+
+/* When the screen is too big, don't stretch the continer too much (over width: 620px) */
+@media (min-width:920px ){
+    .container{
+        width:620px;
+    }
+}

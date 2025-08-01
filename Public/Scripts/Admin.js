@@ -1,12 +1,17 @@
-url='https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1'
+url='https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1'
+const checkMark = `<i class="fa-solid fa-circle-check"></i>`
+const xMark ='<i class="fa-solid fa-circle-xmark"></i>'
+
 const resMessage = document.getElementById('resMessage')
 
+//Add Food 
 document.getElementById("foodDB").addEventListener("submit",async function(event){
     event.preventDefault()
     const formEnt = new FormData(this)
     const formData = Object.fromEntries(formEnt.entries())
     if(formData.processed == 'on') {formData.processed = true}
     if(formData.highSugar == 'on') {formData.highSugar = true}
+    if(formData.highProtien == 'on') {formData.highProtien = true}
 
     try{
         const resFetch = await fetch(`${url}/food/addFood`,{
@@ -19,15 +24,17 @@ document.getElementById("foodDB").addEventListener("submit",async function(event
         const resData = await resFetch.json()
         console.log(resData)
         if(resFetch.ok)
-            resMessage.textContent = `Food Added In Database ✔`
+            resMessage.innerHTML = `Food Added In Database ✔`
 
-        //setTimeout(()=>{ location.reload() },1500)
+        setTimeout(()=>{ location.reload() },700)
 
     } catch(e){
-        resMessage.textContent = `Error:${e.message} ✗`
+        resMessage.textContent = `Error:${e.message} ${xMark}`
     }
 }) 
 
+
+//Add Exercise
 document.getElementById("ExerciseDB").addEventListener('submit',async function(event){
     event.preventDefault()
     try{
@@ -49,16 +56,17 @@ document.getElementById("ExerciseDB").addEventListener('submit',async function(e
         }
 
     }catch(e){
-        resMessage.textContent = `Error:${e.message} ✗`
+        resMessage.textContent = `Error:${e.message} ${xMark}`
     }
 
 })
 
+//Delete User
 document.getElementById("DeleteDB").addEventListener('submit', async function(event){
     event.preventDefault()
     const formEnt = new FormData(this)
     const formData = Object.fromEntries(formEnt.entries())
-
+    console.log(formData)        
     try{
         const resFetch = await fetch(`${url}/auth/deleteUser`,{
             method:'DELETE',
@@ -68,10 +76,10 @@ document.getElementById("DeleteDB").addEventListener('submit', async function(ev
             }
         })
         if(resFetch.ok){
-            resMessage.textContent="User Deleted ✔"
+            resMessage.innerHTML=`User Deleted ${checkMark}`
             setTimeout(()=>{ location.reload() },9000)
         }
     }catch(e){
-        resMessage.textContent = `Error:${e.message} ✗`
+        resMessage.innerHTML = `Error:${e.message} ${xMark}`
     }
 })

@@ -59,3 +59,32 @@ exports.deleteFood = asyncErHandler(async(req,res,next)=>{
     })
 
 })
+
+
+// From Frontend
+exports.liveSearch = asyncErHandler( async(req,res,next)=>{
+    const searchQ = req.body.searchTerm.toLowerCase();
+    
+    if(searchQ.length <1){
+        res.json({status:'success', data:{foods:[]}})
+    }else{
+        const foodsFound = await Food.find({ name: { $regex: searchQ, $options: 'i' } })
+        
+        res.status(200).json({
+            status: 'success',
+            data: {
+                foodObject: foodsFound
+            }
+        })
+    }
+})
+
+exports.findFood = asyncErHandler(async(req,res,next)=>{ // req.body.foodName
+    const foodN = req.body.foodName
+    const food = await Food.findOne({name:foodN})
+    const found = food ? true : false
+    res.json({
+        found,
+
+    })
+})

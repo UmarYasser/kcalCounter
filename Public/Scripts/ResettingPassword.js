@@ -1,9 +1,9 @@
-const devurl = 'https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1'
+const devurl = 'https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1'
 const resMessage = document.getElementById("resMessage")
 const url = new URL(window.location.href)
 const params = new URLSearchParams(url.search)
 const token = params.get('token')
-
+const xMark ='<i class="fa-solid fa-square-xmark fa-xl"></i>'
 
 document.getElementById('ResetPassword').addEventListener('submit',async function(event){
     event.preventDefault()
@@ -22,16 +22,16 @@ document.getElementById('ResetPassword').addEventListener('submit',async functio
         const resData = await resFetch.json()
         
         if(resFetch.ok){
-            resMessage.textContent = "Password Reset ✔\nYou can now log in using the new password. This Page will close now"
+            resMessage.innerHTML = `Password Reset ✔\nYou can now log in using the new password. This Page will close now`
             setTimeout(()=>{ window.close()},3500)
         }else{
             if(resData.message == "Invalid Token")
-                resMessage.textContent = `The Token has Expired, please make a request again.. ✗`
+                resMessage.innerHTML = `The Token has Expired, please make a request again.. ${xMark}`
             else
-                resMessage.textContent = `Error: ${resData.message} ✗`   
+                resMessage.innerHTML = `Error: ${resData.message} ${xMark}`   
         }
     }catch(e){
-        resMessage.textContent = `Error:${e.message} ✗`
+        resMessage.innerHTML = `Error:${e.message} ${xMark}`
 
     }
 })

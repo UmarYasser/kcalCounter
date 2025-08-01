@@ -1,0 +1,517 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+:root{
+    --blue1: rgba(0, 255, 255, 0.847);
+    --blue2:rgba(127, 255, 212, 0.77);
+    --pal1:#ffea7f;
+    --pal2:#90D1CA;
+    --pal3:#129990;
+    --pal4:#096B68;
+}
+
+*, *::before{
+    box-sizing:border-box;
+} 
+*{
+    font-family:"Poppins", sans-serif;
+}
+body{
+    margin:0;
+    /* overflow: hidden; */
+}
+
+a{
+    text-decoration: none;
+    color:var(--pal4);
+    font-weight:600;
+    padding:10px;     
+}
+
+.active{
+    background-color: rgba(33, 46, 91, 0.807);;
+    background-color: rgba(255, 255, 255, 0.807);;
+}
+
+ul#header{
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--pal1);
+    position:sticky;
+    align-items:center;
+    padding: 0px 20px;
+    font-size:20px;
+    width:100%;
+    height:60px;
+    margin:0;
+}
+
+#header li{
+    height:100%;
+    transition: all 0.5s ease;
+    display:flex;
+    align-items:center;
+}
+
+#header li:hover{
+    background-color: white;
+    border-radius:30%;
+}
+
+li#logout:hover{
+    background-color: red;
+
+}
+
+#logout:hover a{
+    color:white;
+}
+/* Header */
+/* ---------------- */
+
+#hWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+}
+
+h1{
+    max-width: 100%;
+    text-align: center;
+}
+#responseMessage{
+    font-size:1.4em;
+    color:var(--pal4);
+    margin:3px;
+    text-align: center;
+
+}
+
+.typeWriter{
+    margin-inline:auto;
+    overflow:hidden;
+    white-space: nowrap;
+    border-right: 1px solid;
+    /* background-color:red; */
+    width:100%;
+    animation: type steps(53) 4.5s forwards  
+        , blink 1s step-end 7s forwards;
+}
+
+@keyframes type {
+    from{
+        width: 0%;
+    }
+    to{
+        width:100%;
+    }
+}
+
+@keyframes blink {
+    from, to{
+        border-color: transparent;
+    }
+    50%{
+        border-color: black;
+    }
+}
+
+#Container{
+    /* top:115px; */
+    position:relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: max-content;
+    margin:5px 0px;
+    /* padding: 0 20px; */
+    gap: 10px;
+    background-color:#ffffff4d
+}
+
+
+#foodMenuCard{
+    align-self:flex-start;
+}
+
+.Food-Menu,.Exercise-Menu{
+    background-image:linear-gradient(45deg,#ffea7fa1,#12999082);  
+    padding:5px;
+    border-radius:10px;
+    min-width:404px;
+    color:var(--pal4);
+}
+
+.Exercise-Menu{
+    min-width:440px;
+}
+
+.hide{
+    display: none;
+}
+
+#liveSearchFood,#liveSearchExercise{
+    width:170px;
+    border: 3px #000000a3 solid;
+    background-color: var(--pal1);
+    background-color: bisque;
+    position:absolute;
+    z-index: 2;
+    border-radius:15px;
+    overflow:hidden;
+    font: normal 16px/1.5 "Poppins", sans-serif;
+    color:black;
+}
+
+.Item{
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    border: 1px solid black
+}
+
+.Item:hover{
+    background-color: rgb(165, 147, 125);
+}
+
+.loaderLiveSearch{
+     width:40px;
+    height:40px;
+    inset: -1px -60px auto auto;
+    position:relative;
+}
+
+.firPulseLS,.secPulseLS{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: #000000a6;
+    animation: pulse 1s linear infinite;
+    animation-iteration-count: infinite;
+}
+
+.secPulseLS{
+    animation-delay: 0.1s;
+}
+
+
+
+#nutCardContainer{
+    background-color: var(--pal4);
+    width:max-content;
+    border-radius:10px 40px;
+    padding:5px;
+    color:var(--pal1);
+    transition: all 0.5s ease-in-out;
+    margin: 5px 0px;
+}
+
+
+#nutCard{
+    /* Initially hidden, changed to 'grid' by the script when needed  */
+    display:grid;
+    grid-template-columns: minmax(170px,100%) minmax(50px,100px); 
+    /* minmax is used to not make the info col. as big as the 1st col, espically if the name is long */
+    background-color: var(--pal4);
+    grid-template-rows: repeat(5,50px);
+    text-wrap:nowrap;
+    width: max-content;
+    min-width: 300px;
+    height: min-content;
+    min-height:150px;
+    border-radius: 10px;
+    padding:5px;
+    margin:5px;
+    transition: all 0.5s ease-in-out;
+}
+
+#nutCard span{
+    font-size: 1.1em;
+    margin: 4px 0px;
+    margin-top:15px;
+    justify-self:flex-end;
+}
+
+
+#nutCardContainer p{
+    display:block;
+    margin: 4px 0px;
+    font-weight: 600;
+    font-size:1.5rem
+}
+
+#foodGrams{
+    text-decoration: underline;
+    
+}
+
+
+.loaderCard{
+    width:80px;
+    height:80px;
+    inset: -25px -3px auto auto;
+    position:relative;
+    display:flex;
+    justify-content: center;
+}
+
+.firPulse,.secPulse{
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: var(--pal1);
+    animation: pulse 1s linear infinite;
+    animation-iteration-count: infinite;
+}
+
+.secPulse{
+    animation-delay: 0.1s;
+}
+
+@keyframes pulse {
+    
+    0%{
+        transform: scale(0);
+        opacity:0;
+    }
+    1%{
+        transform: scale(0);
+        opacity:1;
+    }
+    100%{
+        transform: scale(1);
+        opacity:0;
+    }
+}
+
+#properties{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    position:relative;
+    gap:15px;
+}
+
+#properties p{
+    font-size:1.3em;
+}
+
+#positives,#negatives{
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+#line{
+    background-color:var(--pal1);
+    width: 2px;
+    height:80%;
+    position:absolute;
+    left:46%;
+    margin:5px;
+}
+
+#exerMenuCard{
+    align-self:flex-start;
+}
+
+#exeCardContainer{
+    background-color: var(--pal4);
+    width:max-content;
+    border-radius:40px 10px;
+    padding:15px;
+    color:var(--pal1);
+    transition: all 0.5s ease-in-out;
+    margin: 5px 0px;
+}
+
+#exerciseName{
+    font-size:1.2rem;
+}
+
+#exerciseCard{
+   /* Initially hidden, changed to 'grid' by the script when needed  */
+    display:grid;
+    grid-template-columns: minmax(170px,100%) minmax(50px,120px); 
+    /* minmax is used to not make the info col. as big as the 1st col, espically if the name is long */
+    background-color: var(--pal4);
+    grid-template-rows: repeat(2,50px);
+    text-wrap:nowrap;
+    width: max-content;
+    min-width: 300px;
+    height: min-content;
+    /* min-height:150px; */
+    border-radius: 10px;
+    padding:5px;
+    margin:5px;
+    transition: all 0.5s ease-in-out;
+    justify-content:center;
+    align-items:center;
+}
+
+#exerciseCard span{
+    font-size: 1.2em;
+    margin: 4px 0px;
+    margin-top:15px;
+    justify-self:flex-end;
+    align-self:center;
+}
+
+#exeDuration{
+    text-decoration:underline;
+}
+
+#exeCardContainer p{
+    display:block;
+    margin: 1px 0px;
+    font-weight: 600;
+    align-self: flex-end;
+    justify-self: flex-start;
+    font-size:1.5rem
+}
+
+#exerWaterContainer{
+    height:max-content;
+}
+
+#waterTracker{
+    width: 400px;
+    text-wrap:wrap;
+    min-height: 150px;
+    height:max-content;
+    background-color: whitesmoke;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    background-color:#ffea7fb0;
+    border-radius:30px 10px;
+}
+
+#glassesContainer{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    /* background-color: red; */
+}
+
+#waterLoader{
+    width:80px;
+    height:80px;
+    /* inset: -25px -3px auto auto; */
+    position:relative;
+    display:flex;
+    justify-content: center;
+}
+
+#waterLoader::before,#waterLoader::after{
+    content:'';
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    background-color: var(--pal3);
+    animation: pulse 1s linear infinite;
+    animation-iteration-count: infinite;
+}
+
+
+#waterLoader::after{
+    animation-delay: 0.1s;
+}
+
+@keyframes pulse {
+    0%{
+        transform: scale(0);
+        opacity:0;
+    }
+    1%{
+        transform: scale(0);
+        opacity:1;
+    }
+    100%{
+        transform: scale(1);
+        opacity:0;
+    }
+} 
+#waterInfo{
+    display:flex; 
+    /* background-color:red; */
+    justify-content:space-around
+}
+
+#waterDrunk{
+    color:var(--pal4);
+    font-size:20px;
+    margin:3px;
+    justify-self:flex-end;
+    align-self: flex-end;
+    /* text-align:right; */
+    display:inline;
+    /* background-color:green; */
+    right:0px;
+}
+
+#waterTarget{
+    color:#ffea7fb0;
+    color:#50d0c2;
+    font-size:20px;
+    margin:3px;
+    display:inline;
+}
+
+.fa-glass-water-droplet{
+    color:var(--pal2);
+    cursor:pointer;
+    font-size:70px;
+    transition: color 0.3s ease;
+}
+
+.fa-glass-water-droplet:hover{
+    color:#f5e147;
+}
+
+.fa-glass-water{
+    color:var(--pal3);
+    cursor: pointer;
+    font-size:60px;
+    transition: color 0.3s ease-in-out;
+}
+
+.fa-glass-water:hover{
+    color:var(--pal2);
+}
+
+input{
+    text-align: center;
+    border-radius:15px;
+    border:10px;
+    margin:3px;
+}
+
+input[type='text']:focus,input[type='number']:focus,input[type='submit']:focus{
+    border: 4px solid black;
+    transition: all 0.1s linear;
+    background-color: #feee9d;
+    border-radius: 15px;
+    margin:0px;
+}
+
+
+.circle{
+    position:absolute;
+    width:800px;
+    height:800px;
+    border-radius:50%;
+    inset: -450px  auto auto -250px ;
+    background-color:var(--pal1);
+    z-index:-1;
+    opacity:1;
+}

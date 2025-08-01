@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Me Page</title>
+    <link rel="stylesheet" href="./../Stylesheets/Me.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="./../img/favicon.png">
+
+</head>
+<body>
+    <ul id="header">
+        <li class="active">
+            <i class="fa-solid fa-user" style="color:#096B68"></i>
+            <a href="#" >Me</a>
+        </li>
+        <li >
+            <i class="fa-solid fa-calendar-days" style="color:#096B68"></i>
+            <a href="./Tracker">Tracker</a>
+        </li>
+        <li>
+            <i class="fa-solid fa-dumbbell" style="color:#096B68"></i>
+            <a href="./Activity">Activity</a>
+            <i class="fa-solid fa-utensils" style="color:#096B68"></i>
+        </li>
+        <li id="logout">
+            <i class="fa-solid fa-right-from-bracket" style="color:#096B68"></i>
+            <a  href="#" id="loggedOut">Logout</a>
+        </li>
+    </ul>
+    <div id="loadercon">    
+        <div id="loaderBig">
+            <div id="firPulse"></div>
+            <div id="secPulse"></div>
+        </div>
+    </div>
+
+    <div class="circle"></div>
+
+    <h2 style="color:#096B68" >Hi, <span id="nameSpan" style="color:#90D1CA"></span>, welcome to update user page.</h2>
+    <div class="container loading" hidden>
+
+        <form class="personal loading" hidden>
+            <h3>Personal Info</h3>
+            <div>
+
+                <label>Name</label>
+                <input type="text" id="nameField" name="name" required>
+            </div>
+            <!-- <label>Photo</label>
+            <input type="text" name="Photo"> -->
+            <div>
+
+                <label>Age</label>
+                <input type="number" id="age" name="age" required>
+            </div>
+            <div>
+
+                <label>Weight</label>
+                <input type="Number" id="weight" name="weight" required>
+            </div>
+            <div>
+
+                <label>Height</label>
+                <input type="Number" id="height" name="height" required>
+            </div>
+            <div>
+
+                <label for="gender">Gender:</label>                
+                <input  selected type="radio" value="male" name="gender" required>
+                <label for="g1">Male</label>
+                <input type="radio" id="g2" value="female" name="gender" required>
+                <label for="g2">Female</label>
+                
+            </div>
+            <div>
+
+                <label>Activity Level</label>
+                <input type="number" min="0" max="7"  id="daysWorkingOut" name="daysWorkingOut" required>
+            </div>
+            <div>
+
+                <label>Goal</label>
+                
+                <select name="goal" id="goal" required>
+                    <option value="lose">Lose</option>
+                    <option selected value="maintain">Maintain</option>
+                    <option value="gain">Gain</option>
+                </select>
+            </div>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+
+    <!-- <form id="Macros">
+        
+    </form> -->
+
+    <p id="responseMessage"></p>
+    
+    <script src="./../Scripts/Me.js"></script>
+</body>
+</html>

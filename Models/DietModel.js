@@ -46,6 +46,10 @@ const dietSchema= new mongoose.Schema({
     fatIntake:{
         type:Number,
     },
+    waterIntake:{
+        type:Number,
+        default:3 // 3 Liters
+    },
     goal:{
         type:String,
         enum:['gain','lose','maintain'],
@@ -101,11 +105,12 @@ dietSchema.pre('save',function(next){
         default: this.dailyIntake*=1.2
             break;
     }
-
-    if(this.goal === 'gain') this.dailyIntake +=500;
-    if(this.goal === 'lose') this.dailyIntake -=500;
-    //--------------
+    
+    this.waterIntake = this.weight * 0.033;
+        
+   //Adjusting According to Goal
     if(this.goal === "lose"){
+        this.dailyIntake -=500;
         this.carbIntake = this.dailyIntake*0.35 /4
         this.protienIntake = this.dailyIntake*0.35 /4
         this.fatIntake = this.dailyIntake*0.30 /9
@@ -114,10 +119,12 @@ dietSchema.pre('save',function(next){
         this.protienIntake = this.dailyIntake*0.25 /4
         this.fatIntake = this.dailyIntake*0.30 /9
     } else if(this.goal === "gain"){
+        this.dailyIntake +=500;
         this.carbIntake = this.dailyIntake*0.50 /4
         this.protienIntake = this.dailyIntake*0.30 /4
         this.fatIntake = this.dailyIntake*0.20 /9
     }
+    //Round the values
     this.dailyIntake = Math.round(this.dailyIntake)
     this.carbIntake = Math.round(this.carbIntake)
     this.protienIntake = Math.round(this.protienIntake)

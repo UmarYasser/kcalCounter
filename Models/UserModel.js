@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
 
@@ -83,6 +83,7 @@ userSchema.methods.isPasswordChangedAfIs = async function(JWTTS){
     return false
 }
 
+//RPT = Reset Password Token
 userSchema.methods.RPT = async function(){
     const token = crypto.randomBytes(32).toString('hex')
     this.PWResetToken = crypto.createHash('sha256').update(token).digest('hex');

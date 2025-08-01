@@ -5,6 +5,7 @@ const path = require('path')
 
 router.route('/signUp').post(authCon.signUp)
 router.route('/logIn').post(authCon.logIn)
+router.route("/logOut").post(authCon.logOut)
    
 router.route('/forgotPassword').patch(authCon.forgotPassword)
 router.route('/resetPassword/:resetToken').patch(authCon.resetPassword)

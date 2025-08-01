@@ -32,6 +32,10 @@ const trackerSchema = new mongoose.Schema({
                 type:Number,
                 default:0
             },
+            water:{
+                type:Number,
+                default:0
+            },
         },
     required:
         {
@@ -51,6 +55,10 @@ const trackerSchema = new mongoose.Schema({
                 type:Number,
                 default:0
             },
+            water:{
+                type:Number,
+                default:0
+            }
     },
     meals:{
         Breakfast:{
@@ -192,7 +200,11 @@ const trackerSchema = new mongoose.Schema({
             required:[true,"Duration is Required!"],
             default:0
         }
-    }]
+    }],
+    exerBurned:{
+        type:Number,
+        default:0
+    }
 })
 
 trackerSchema.pre('save',function(next){
@@ -204,8 +216,10 @@ trackerSchema.pre('save',function(next){
     this.required.carb = Math.round(this.diet.carbIntake)
     this.required.protien = Math.round(this.diet.protienIntake)
     this.required.fat = Math.round(this.diet.fatIntake)
+    this.required.water = (this.diet.waterIntake).toFixed(1) * 1
 
     } else if(this.isModified('exercise')){
+        this.exerBurned += Math.round(this.exercise[this.exercise.length-1].calories)
         this.required.calories += Math.round(this.exercise[this.exercise.length-1].calories)
         this.required.carb += Math.round(this.exercise[this.exercise.length-1].carb)
         this.required.fat += Math.round(this.exercise[this.exercise.length-1].fat) 

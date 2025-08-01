@@ -6,15 +6,23 @@ const util = require('util');
 const Email = require('./../Utils/Email');
 const crypto = require('crypto')
 const Diet = require("./../Models/DietModel")
+const fs = require('fs')
+const LogIn = fs.readFileSync('./Public/template/LogIn.html')
 
 const signToken = (id) =>{
     return jwt.sign({id:id},process.env.SECRET_STR,)
 }
 
-
 exports.signUp = asyncErHandler(async(req,res,next)=>{
-    const user = await User.create(req.body);
     
+    if( await User.findOne({email:req.body.email})){
+        console.log("Duplicate Email")
+        res.status(200).json({
+            status:'success',
+            message:'This Email is taken'
+        })
+    }
+    const user = await User.create(req.body);
     const token = signToken(user._id)
 
     options= {
@@ -31,9 +39,10 @@ exports.signUp = asyncErHandler(async(req,res,next)=>{
     }
     
     res.cookie('jwt',token,options)
-        res.status(201).json({
-            status:'success'
-        })
+    res.status(201).json({
+            status:'success',
+            message: 'Signing Up Successfully'
+     })
     
     
 })
@@ -49,11 +58,11 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
         const err = new CustomError('No User with that email was found',401);
         return next(err);
     }
-
-    const isMatch = await user.comparePassword(req.body.password,user.password)
     
+    const isMatch = await user.comparePassword(req.body.password,user.password)
     if(!isMatch){
         const err = new CustomError("Incorrect Password",401)
+        return next(err)
     }
 
     const loginToken = signToken(user._id)
@@ -77,6 +86,20 @@ exports.logIn = asyncErHandler(async(req,res,next)=>{
     })
 })
 
+exports.logOut = asyncErHandler(async(req,res,next) =>{
+    res.cookie('jwt', 'loggedout',{
+        expires: new Date(Date.now() + 1*1000),
+        httpOnly:true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite:'strict',
+        path:'/'
+    })
+    
+    res.setHeader("Cache-Control",'no-store, max-age=0')
+    res.status(200).json({status:'success'})
+})
+
+
 exports.protect = asyncErHandler(async(req,res,next) =>{ //req.headers.authorization = bearer token
     //1
     // const testToken = req.headers.authorization.split(' ') || null;
@@ -92,7 +115,9 @@ exports.protect = asyncErHandler(async(req,res,next) =>{ //req.headers.authoriza
     const decoded = await util.promisify(jwt.verify)(token,process.env.SECRET_STR); // return user._id, issued at (iat)
   
     const user = await User.findById(decoded.id);
-
+    if(req.cookies.jwt == 'loggedout'){
+        res.redirect(LogIn)
+    }
     if(!user)
         return next(new CustomError("That User doesn't exist",401))
     //3
@@ -116,6 +141,7 @@ exports.strict = (...role) =>{
 exports.forgotPassword = asyncErHandler(async(req,res,next) =>{
     //1. Identify the user with the given email
     const user = await User.findOne({email:req.body.email});
+    
     if(!user){
         
         const err = new CustomError('Email Not Found!',401);
@@ -186,7 +212,7 @@ exports.deleteUser = asyncErHandler(async(req,res,next)=>{
     }
 
     await User.findByIdAndUpdate(deleteUser._id,{active:false})
-    const message = `Your Account has been deleted by admin ${req.user.name}.\nIf you think that there's an error, you can reply to this email. Have a nice day!`
+    const message = `Your Account has been deleted by admin ${req.user.name}.\n Reeason: ${req.body.reason}\nIf you think that there's an error, you can reply to this email. Have a nice day!`
     try{
         await Email.sendEmail({
             email:deleteUser.email,

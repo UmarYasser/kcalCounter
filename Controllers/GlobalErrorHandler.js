@@ -22,6 +22,7 @@ const tokenErr = (err) =>{
     return new CustomError(msg,401);
 }
 
+
 const prodError = (res,err) =>{
     if(err.isOpretional){
         res.status(err.statusCode).json({

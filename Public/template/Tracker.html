@@ -1,74 +1,311 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tracker Page</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        
-        ul{
-            list-style-type: none;
-            background-color: #d8c7ae80;
-            border:2px #d8c7ae5e solid;
-            z-index: 1;
-            padding:0;
-            margin:10px;
-            overflow: visible !important;
-        }
-        li{
-            position: relative; 
-            cursor: pointer; 
-        }
-        li:hover{
-            background-color: rgba(159, 208, 223, 0.87);
-        }
-
-        .nutCard{
-            background-color: rgb(226, 226, 226);
-            position:absolute;
-            top: 5px;            
-            width:auto;
-            border:2px solid #5a572d;
-            padding:2px;
-            right:-80px;
-            z-index: 2;
-            opacity:0;
-            visibility: hidden;
-        }
-        .nutCard li{
-            background-color: rgb(216, 202, 182);   
-        }
-        li:hover  .nutCard{
-            opacity: 1;
-            visibility: visible;
-            transition: opacity .5s ease-in-out ;
-        }
-       
-        
-    </style>
+    <title>Tracker Page</title>
+    <link rel="stylesheet" href="./../Stylesheets/Tracker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="./../img/favicon.png">
 </head>
 <body>
-    <h3>Display Which Day:    
-    <input id ="dateInput" type="date" name="date">
-    <button id="viewTracker" >View</button>
-    <p id="viewDateMessage"></p>
-    </h3>
-    <div>
-        
+    <ul id="header">
+        <li>
+            <i class="fa-solid fa-user"></i>
+            <a href="./Me" >Me</a>
+        </li>
+        <li class="active">
+            <i class="fa-solid fa-calendar-days"></i>
+            <a href="#" >Tracker</a>
+        </li>
+        <li>
+            <i class="fa-solid fa-dumbbell"></i>
+            <a href="./Activity">Activity</a>
+            <i class="fa-solid fa-utensils"></i>
+        </li>
+        <li id="logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <a id="loggedOut" href="#">Logout</a>
+        </li>
+    </ul>
+    <div class="circle"></div>
+    <h3 style="color:#096B68" style="text-align: center;">Display Which Day:    
+        <input id ="dateInput" type="date" name="date">
+        <button id="viewTracker" >View</button>
+        <p id="viewDateMessage"></p>
+    </h3>  
+    <div id="loadercon" >    
+        <div id="loaderBig" >
+            <div id="firPulse"></div>
+            <div id="secPulse"></div>
+        </div>
     </div>
-    <div id="ReqEaten"></div>
+    <div class="Container">
 
+    
+    <div id="MCcontainer" style="display: none">
+        
+        <div class="calorie loading" hidden>
+            <div class="calTitle loading" hidden>
+                <h3>Calories</h3>
+                <p>Remaining = Goal - Eaten + Burned</p>
+            </div>
+            <!-- <div class="calInfo"> -->
+                <div class="Remaining loading" hidden >
+                    <h3><i class="fa-solid fa-flag fa-xl" style="color:gold"></i>
+                        Goal</h3>
+                    <p id="remaining1" style="text-align: center;"></p>
+                </div>
+                
+                <div class="Eaten loading" style="text-align: center;" hidden>
+                    <h3><i class="fa-solid fa-utensils fa-xl"style="color:#008aff"></i>
+                        Eaten</h3>
+                    <p id="eaten"></p>
+                </div>
+                
+                <div class="Burned loading" style="text-align: center;"  hidden>
+                    <h3><i class="fa-solid fa-fire fa-xl" style="color:orange"></i>
+                        Burned</h3>
+                    <p id="burned"></p>
+                </div>
+            <!-- </div> -->
+            
+            <div class="skill loading" hidden>
+                <div class="outer">
+                    <div class="inner">
+                        <pre class="remaining2"></pre>
+                    </div>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="160px" height="160px" >
+                    <defs>
+                        <linearGradient id="GradientColor">
+                            <stop offset="0%" stop-color=" #90D1CA" />
+                            <stop offset="100%" stop-color="#129990" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="80" cy="80" r="70" stroke-linecap="round" id="gradCircle" transform="rotate(-90 80 80)"/>
+                </svg>
+            </div>
+
+        </div> <!-- Calorie Continer-->
+        
+        <div class="bars loading" hidden>
+            <div class="contain loading" hidden>
+                <h3>Carbs <span id="carbs"></span>  </h3>
+                <div class="progress-bar loading">
+                    <div class="pro proCarb"></div>
+                </div>
+            </div>
+            
+            <div class="contain loading" hidden>
+                <h3>Protien <span id="pros"></span> </h3>
+                <div class="progress-bar">
+                    <div class="pro proProtien"></div>
+                </div>
+            </div>
+
+            <div class="contain loading" hidden>
+                <h3>Fat <span id="fats"></span> </h3>
+                <div class="progress-bar">
+                    <div class="pro proFat"></div>
+                </div>
+            </div>
+        </div> <!-- Bars Container-->
+    </div>
+    </div>
     <br>
-    <div id="Meals" style="display: flex;gap:50px;">
-        <div>
-            <div id="Breakfast"></div>
-                <button id="BFfoodsBtn" hidden>View Tracked Foods</button>
+    
+    <div id="Meals" >
+        
+            <div id="Breakfast" style="display: none;"  >
+                <h3 style="text-wrap: nowrap; color:#096B68"><button id="BFfoodsBtn" class="mealsButton"><i id="arrowUpBf" class="fa-solid fa-arrow-up" style="color:#096B68"></i> <i id="arrowDownBf" class="fa-solid fa-arrow-down" style="display:none;color:#096B68"></i> </button> Breakfast <p style="display: inline; font-size:0.8em" >Range <span id="BfRange">...cal</span></p></h3>
+                <table  border="1e">
+                    <thead>
+                        <tr>
+                            <th>Food/Info</th>
+                            <th>Gm.</th>
+                            <th>Cal.</th>
+                            <th>Carbs</th>
+                            <th>Protien</th>
+                            <th>Fat</th>
+                        </tr>
+                    </thead>
+                    <tr id="dotsBf" hidden>
+                        <td class="foodNameTb">...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tbody id="food-listBF">
+                        <tr id="ifEmptyBF">
+                            <td  class="foodNameTb">N/A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: 600;">
+                            <td><b>Total</b></td>
+                            <td id="TgmsBF"></td> 
+                            <td id="TcalBF"></td>
+                            <td id="TcarbBF"></td>
+                            <td id="TproBF"></td>
+                            <td id="TfatBF"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+                <!--  -----------------------------  -->
+            <div id="Lunch" style="display: none;" >
+                <h3 style="text-wrap: nowrap; color:#096B68"><button id="LchfoodsBtn" class="mealsButton"><i id="arrowUpLch" class="fa-solid fa-arrow-up " style="color:#096B68"></i> <i id="arrowDownLch" class="fa-solid fa-arrow-down" style="display:none;color:#096B68"></i> </button> Lunch <p style="display: inline; font-size:0.8em" >Range <span id="LchRange">500-700Kcal</span></p></h3>
+                <table  border="1">
+                    <thead>
+                        <tr>
+                            <th>Food/Info</th>
+                            <th>Gm.</th>
+                            <th>Cal.</th>
+                            <th>Carbs</th>
+                            <th>Protien</th>
+                            <th>Fat</th>
+                        </tr>
+                    </thead>
+                    <tr id="dotsLch" hidden>
+                        <td class="foodNameTb">...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tbody id="food-listLch">
+                        <tr id="ifEmptyLch">
+                            <td  class="foodNameTb">N/A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: 600;">
+                            <td><b>Total</b></td>
+                            <td id="TgmsLch"></td> 
+                            <td id="TcalLch"></td>
+                            <td id="TcarbLch"></td>
+                            <td id="TproLch"></td>
+                            <td id="TfatLch"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- ----------------------------- -->
+
+            <div id="Dinner" style="display: none;" >
+                <h3 style="text-wrap: nowrap; color:#096B68"><button id="DnfoodsBtn" class="mealsButton"><i id="arrowUpDn" class="fa-solid fa-arrow-up" style="color:#096B68"></i> <i id="arrowDownDn" class="fa-solid fa-arrow-down" style="display:none;color:#096B68"></i> </button> Dinner <p style="display: inline; font-size:0.8em" >Range <span id="DnRange">...cal</span></p></h3>
+                <table  border="1">
+                    <thead>
+                        <tr>
+                            <th>Food/Info</th>
+                            <th>Gm.</th>
+                            <th>Cal.</th>
+                            <th>Carbs</th>
+                            <th>Protien</th>
+                            <th>Fat</th>
+                        </tr>
+                    </thead>
+                    <tr id="dotsDn" hidden>
+                        <td class="foodNameTb">...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tbody id="food-listDn">
+                        <tr id="ifEmptyDn">
+                            <td  class="foodNameTb">N/A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: 600;">
+                            <td><b>Total</b></td>
+                            <td id="TgmsDn"></td> 
+                            <td id="TcalDn"></td>
+                            <td id="TcarbDn"></td>
+                            <td id="TproDn"></td>
+                            <td id="TfatDn"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- -------------------------------- -->
+
+            <div id="Snacks" style="display: none;" >
+                <h3 style="text-wrap: nowrap; color:#096B68"><button id="SckfoodsBtn" class="mealsButton"><i id="arrowUpSck" class="fa-solid fa-arrow-up" style="color:#096B68"></i> <i id="arrowDownSck" class="fa-solid fa-arrow-down" style="display:none;color:#096B68"></i> </button> Snacks <p style="display: inline; font-size:0.8em" >Range <span id="SckRange">...cal</span></p></h3>
+                <table  border="1">
+                    <thead>
+                        <tr>
+                            <th>Food/Info</th>
+                            <th>Gm.</th>
+                            <th>Cal.</th>
+                            <th>Carbs</th>
+                            <th>Protien</th>
+                            <th>Fat</th>
+                        </tr>
+                    </thead>
+                    <tr id="dotsSck" hidden>
+                        <td class="foodNameTb">...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+                        <td>...</td>
+
+                    </tr>
+                    <tbody id="food-listSck">
+                        <tr id="ifEmptySck">
+                            <td  class="foodNameTb">N/A</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr style="font-weight: 600;">
+                            <td><b>Total</b></td>
+                            <td id="TgmsSck"></td> 
+                            <td id="TcalSck"></td>
+                            <td id="TcarbSck"></td>
+                            <td id="TproSck"></td>
+                            <td id="TfatSck"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+                <!-- <button id="BFfoodsBtn" hidden>View Tracked Foods</button> -->
                 
            
-            <ul id="BFfoods" hidden style="max-height: 100px;overflow-y:auto;padding-left:5px;">
+            <!-- <ul id="BFfoods" hidden style="max-height: 100px;overflow-y:auto;padding-left:5px;">
                 <li>Nothing has been tracked yet!</li>
-            </ul>
+            </ul> -->
             
-        </div>
+        
         
         <div>
             <div id="Lunch"></div>
@@ -92,13 +329,14 @@
                 <li>Nothing has been tracked yet!</li>
             </ul>
         </div>
-    </div>
-
-    <div style="display:flex;gap:20px;">
-
-    <h3  id="Food Menu" hidden>
+    
+    
+         <!-- <h3  id="Food Menu" hidden>
         <fieldset>
-            <legend>Add Food</legend>
+
+            <legend>
+                <i class="fa-solid fa-dumbbell"></i>
+                Add Food:</legend>
         <form id="EatAPI">
             <input list="foodSelect" name="foodName" placeholder="Select Food..." required>
             <datalist id="foodSelect">
@@ -121,9 +359,9 @@
             </h5>               
         </form>
         </fieldset>
-    </h3>
+    </h3> -->
 
-    <h3 id="Exercise Menu" hidden>
+    <!-- <h3 id="Exercise Menu" hidden>
         <form id="ExersiceAPI">
         <fieldset>
             <legend>Add Exersice:</legend>
@@ -136,14 +374,16 @@
         </fieldset>
         </form>
 
+        <button id="trackedExerciseBtn" hidden> View Tracked Exercise</button>
         <ul id="trackedExercise" hidden>
             <li>No Exercise has been tracked yet!</li>
         </ul>
-        <button id="trackedExerciseBtn" hidden> View Tracked Exercise</button>
     </h3>
-    </div>
+    </div> -->
+    
     <p id ="responseMessage"></p>
    
     <script src="../Scripts/Tracking.js"></script>
+    
 </body>
 </html>

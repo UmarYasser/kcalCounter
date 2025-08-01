@@ -1,49 +1,47 @@
-url = "https://expert-tribble-jv7qv746jvw2v7v-3000.app.github.dev/api/v1"
-function getCookie(name){
-  const cookieObj = document.cookie.split(';')
-  for (let cookie of cookieObj){
-    cookie = cookie.trim()
-    if(cookie.startsWith(name + '=')){
-      return cookie.substring(name.length+1)
-    }
-  }
-  return null
-}
+url = "https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1"
+const checkMark = '<i class="fa-solid fa-check-double fa-2xl"></i>'
+const xMark ='<i class="fa-solid fa-square-xmark"></i>'
+const questionMark ='<i class="fa-solid fa-question"></i>'
+const gears = '<i class="fa-solid fa-gears fa-xl" ></i>'
+const star = '<i class="fa-solid fa-star fa-xl"></i>'
+const eye = '<i class="fa-solid fa-eye fa-2xl"></i>'
+const eyeSlash = '<i class="fa-solid fa-eye-slash fa-2xl"></i>'
 
+
+//Submitting Form
 document.getElementById("myForm").addEventListener("submit", async function (event) {
   event.preventDefault(); // Prevent form from refreshing the page or navigating away.
-    const token = getCookie('jwt')
-    const formData = new FormData(this); // Collect form data
-    const data = Object.fromEntries(formData.entries()); // Convert to JSON object
-    let resMessage = document.getElementById('responseMessage')
-    try {
-      // Replace '/your-endpoint' with your actual API endpoint
+  const formData = new FormData(this); // Collect form data
+  const data = Object.fromEntries(formData.entries()); // Convert to JSON object
+  let resMessage = document.getElementById('resMessage')
+  try {
+     // Replace '/your-endpoint' with your actual API endpoint
       const response = await fetch(`${url}/users/setUpDiet`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          //'authorization': `bearer ${token}`,
-          //credentials:'include'
         },
         body: JSON.stringify(data),
       });
   
       if (response.ok) {
-        resMessage.textContent = "Setting Up Diet"
-        const result = await response.json();
+        resMessage.innerHTML= `${star} Directing to Tracker Page ${checkMark}`   
+  
         setTimeout( ()=>{
-        resMessage.textContent= 
-          "Form submitted successfully! Redirecting Now"
-        },2500)
-        setTimeout(() =>{
           window.location.href = './Tracker'
-        },5000)
+        },2000)
       } else {
-        document.getElementById("responseMessage").textContent = 
-          `Error: ${response.statusText}`;
+        document.getElementById("resMessage").innerHTML = 
+          `Error: ${response.statusText} ${gears}`;
       }
     } catch (error) {
-      document.getElementById("responseMessage").textContent = 
-        `Error: ${error.message} ✗`;
+      document.getElementById("resMessage").innerHTML = 
+        `Error: ${error.message} ${gears}`;
     }
-  });  
+});
+
+//Days Active
+document.getElementById("exer").addEventListener("input",async(event)=>{
+  // "input" is the event of changing the value
+  document.getElementById("daysActive").textContent = document.getElementById("exer").value
+})
