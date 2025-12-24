@@ -1,4 +1,4 @@
-const devurl = 'https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1'
+const devurl = 'https://kcalcounter.onrender.com/api/v1'
 const resMessage = document.getElementById("resMessage")
 const url = new URL(window.location.href)
 const params = new URLSearchParams(url.search)
