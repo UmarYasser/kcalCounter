@@ -1,4 +1,4 @@
-url='https://kcalcounter.onrender.com'
+url='https://kcalcounter.onrender.com/api/v1'
 const checkMark = `<i class="fa-solid fa-circle-check"></i>`
 const xMark ='<i class="fa-solid fa-circle-xmark"></i>'
 
