@@ -1,4 +1,4 @@
-url = "https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1"
+url = "https://kcalcounter.onrender.com/api/v1"
 const date= document.getElementById("dateInput")
 const viewAction = document.getElementById("viewTracker")
 const VDMessage= document.getElementById('viewDateMessage')
