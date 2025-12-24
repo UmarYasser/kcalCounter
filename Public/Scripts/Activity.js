@@ -1,4 +1,4 @@
-const url = "https://97p7tnf4-3000.uks1.devtunnels.ms"
+const url = "https://kcalcounter.onrender.com"
 const foodSelect= document.getElementById("foodSelect")
 const foodSearch = document.getElementById("foodSearch")
 const liveSearchFood = document.getElementById("liveSearchFood")
