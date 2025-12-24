@@ -1,4 +1,4 @@
-url='https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1'
+url='https://kcalcounter.onrender.com'
 const checkMark = `<i class="fa-solid fa-circle-check"></i>`
 const xMark ='<i class="fa-solid fa-circle-xmark"></i>'
 
