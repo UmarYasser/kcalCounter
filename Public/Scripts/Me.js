@@ -1,4 +1,4 @@
-const url = 'https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1'
+const url = 'https://kcalcounter.onrender.com/api/v1'
 const resMes = document.getElementById("responseMessage")
 const xMark ='<i class="fa-solid fa-square-xmark fa-xl"></i>'
 
