@@ -1,6 +1,6 @@
 // import dotenv from 'dotenv'
 // dotenv.config({path:'./config.env'})
-const url = 'https://97p7tnf4-3000.uks1.devtunnels.ms/api/v1'
+const url = 'https://kcalcounter.onrender.com/api/v1'
 const resMessage = document.getElementById("resMessage")
 let forgotPassword = false
 const checkMark = '<i class="fa-solid fa-check-double"></i>'
