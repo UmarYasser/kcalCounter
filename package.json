@@ -4,8 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "umar": "nodemon server.js"
+    "start": "node server.js",
   },
   "keywords": [],
   "author": "",
