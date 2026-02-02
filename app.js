@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const fs= require('fs');
+const path = require('path')
 const foodRouter = require('./Routes/foodRouter');
 const authRouter = require('./Routes/authRouter');
 const userRouter = require('./Routes/userRouter');
@@ -25,7 +26,7 @@ let limiter = rateLimit({
 })
 app.use(express.json()) 
 app.use(helmet())
-app.use(express.static('./Public'))
+app.use(express.static(path.join(__dirname,'Public')))
 app.use(cp())
 app.use(express.urlencoded({ extended: true }));
 app.set('trust proxy', 1); 
