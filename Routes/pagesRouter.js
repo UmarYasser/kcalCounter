@@ -1,18 +1,18 @@
 const fs = require('fs')
 const path = require('path')
-const authCon = require(path.join(__dirname,'..','Controllers/authController')
-const Home = fs.readFileSync(path.join(__dirname,'..','Public/template/Home.html');
-const SignUp = fs.readFileSync(path.join(__dirname,'..','Public/template/SignUp.html');
+const authCon = require(path.join(__dirname,'..','Controllers/authController'))
+const Home = fs.readFileSync(path.join(__dirname,'..','Public/template/Home.html'))
+const SignUp = fs.readFileSync(path.join(__dirname,'..','Public/template/SignUp.html'))
 const LogIn = fs.readFileSync(path.join(__dirname,'..', 'Public/template/LogIn.html'))
-const SetUp = fs.readFileSync( path.join(__dirname,'..','Public/template/SetUp.html')
+const SetUp = fs.readFileSync( path.join(__dirname,'..','Public/template/SetUp.html'))
 
-const Tracker = fs.readFileSync(path.join(__dirname,'..','Public/template/Tracker.html')
-const Activity = fs.readFileSync(path.join(__dirname,'..','Public/template/Activity.html')
-const Admin = fs.readFileSync(path.join(__dirname,'..','Public/template/Admin.html')
-const notFound = fs.readFileSync(path.join(__dirname,'..','Public/template/404.html')
-const forbidden = fs.readFileSync(path.join(__dirname,'..','Public/template/403.html')
-const ResetPassword = fs.readFileSync(path.join(__dirname,'..','Public/template/ResetPassword.html')
-const Me = fs.readFileSync(path.join(__dirname,'..','Public/template/Me.html')
+const Tracker = fs.readFileSync(path.join(__dirname,'..','Public/template/Tracker.html'))
+const Activity = fs.readFileSync(path.join(__dirname,'..','Public/template/Activity.html'))
+const Admin = fs.readFileSync(path.join(__dirname,'..','Public/template/Admin.html'))
+const notFound = fs.readFileSync(path.join(__dirname,'..','Public/template/404.html'))
+const forbidden = fs.readFileSync(path.join(__dirname,'..','Public/template/403.html'))
+const ResetPassword = fs.readFileSync(path.join(__dirname,'..','Public/template/ResetPassword.html'))
+const Me = fs.readFileSync(path.join(__dirname,'..','Public/template/Me.html'))
 
 const router = require('express').Router()
 
