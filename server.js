@@ -17,7 +17,7 @@ mongoose.connect(process.env.CONN_STR)
 const PORT = process.env.PORT || 3000
 
 const server = app.listen(PORT,() =>{
-    consoele.log("Current Working Directory:", process.cwd())
+    console.log("Current Working Directory:", process.cwd())
     console.log('----------------\nServer Running on Port ',PORT )
     
 })
