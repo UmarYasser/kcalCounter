@@ -9,7 +9,7 @@ const Diet = require("./../Models/DietModel")
 const fs = require('fs')
 const path = require('path')
 
-const LogIn = fs.readFileSync(path.join(__dirname,'Public/template/LogIn.html'),'utf-8')
+const LogIn = fs.readFileSync(path.join(__dirname,'..','Public/template/LogIn.html'),'utf-8')
 
 const signToken = (id) =>{
     return jwt.sign({id:id},process.env.SECRET_STR,)
