@@ -7,7 +7,7 @@ const Email = require('./../Utils/Email');
 const crypto = require('crypto')
 const Diet = require("./../Models/DietModel")
 const fs = require('fs')
-cosnt path = require('path')
+const path = require('path')
 
 const LogIn = fs.readFileSync(path.join(__dirname,'Public/template/LogIn.html'),'utf-8')
 
